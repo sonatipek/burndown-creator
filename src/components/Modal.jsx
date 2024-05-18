@@ -43,6 +43,7 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
                   defaultValue={employee.todo}
                   value={todo}
                   onChange={(e) => setTodo(e.target.value)}
+                  min={0}
                 />
               </div>
               <div>
@@ -58,6 +59,7 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
                   defaultValue={employee.progress}
                   value={progress}
                   onChange={(e) => setProgress(e.target.value)}
+                  min={0}
                 />
               </div>
 
@@ -74,6 +76,7 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
                   defaultValue={employee.waiting}
                   value={waiting}
                   onChange={(e) => setWaiting(e.target.value)}
+                  min={0}
                 />
               </div>
 
@@ -90,6 +93,7 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
                   defaultValue={employee.test}
                   value={test}
                   onChange={(e) => setTest(e.target.value)}
+                  min={0}
                 />
               </div>
 
@@ -106,6 +110,7 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
                   defaultValue={employee.done}
                   value={done}
                   onChange={(e) => setDone(e.target.value)}
+                  min={0}
                 />
               </div>
 

@@ -8,7 +8,7 @@ import {
   TableHeaderCell,
   TableRow,
   TextInput,
-  LineChart,
+  // LineChart,
 } from "@tremor/react";
 
 import { useEffect, useState } from "react";
@@ -23,16 +23,16 @@ export default function Example() {
   const [employees, setEmployees] = useState(
     JSON.parse(localStorage.getItem("employees")) || [],
   );
-  const [chartdata, setChartData] = useState(
-    JSON.parse(localStorage.getItem("chartData")) || [],
-  );
+  // const [chartdata, setChartData] = useState(
+  //   JSON.parse(localStorage.getItem("chartData")) || [],
+  // );
 
   const submitHandler = (e) => {
     e.preventDefault();
     setEmployees((prevState) => [
       ...prevState,
       {
-        id: prevState.length + 1,
+        id: Date.now(),
         name,
         surname,
         role,
@@ -52,15 +52,23 @@ export default function Example() {
   };
 
   const chartDataAdd = (date) => {
-    setChartData((prevState) => [
-      ...prevState,
-      {
-        date: date.toLocaleDateString("tr"),
-        "Emirhan Erol": 20,
-        "Sonat İpek": 20,
-      },
-    ]);
+    // setChartData((prevState) => [
+    //   ...prevState,
+    //   {
+    //     date: date.toLocaleDateString("tr"),
+    //     "Emirhan Erol": 20,
+    //     "Sonat İpek": 20,
+    //   },
+    // ]);
+    console.log(date);
   };
+
+  const deleteEmployee = (id) => {
+    setEmployees((prevState) =>
+      prevState.filter((employee) => employee.id !== id),
+    );
+  };
+
   const editEmployeeStatus = (id, todo, progress, waiting, test, done) => {
     setEmployees((prevState) => {
       return prevState.map((employee) => {
@@ -148,7 +156,7 @@ export default function Example() {
                     buttonText="Güncelle"
                     editEmployeeStatus={editEmployeeStatus}
                   />
-                  <button>Sil (şimdilik aktif değil)</button>
+                  <button onClick={() => deleteEmployee(employee.id)} >Sil</button>
                 </TableCell>
               </TableRow>
             ))}
@@ -158,7 +166,7 @@ export default function Example() {
 
       <DatePickerComp chartDataAdd={chartDataAdd} />
 
-      <LineChart
+      {/* <LineChart
         className="h-80"
         data={chartdata}
         index="date"
@@ -168,7 +176,7 @@ export default function Example() {
         colors={["indigo", "rose"]}
         yAxisWidth={60}
         onValueChange={(v) => console.log(v)}
-      />
+      /> */}
     </main>
   );
 }
