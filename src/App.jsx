@@ -99,7 +99,7 @@ export default function Example() {
       acc[`${item.name}`] = Number(item.status.todo);
       return acc;
     }, {});
-    newChartDataToDo = { ...newChartData, date: date.toLocaleDateString("tr") };
+    newChartDataToDo = { ...newChartDataToDo, date: date.toLocaleDateString("tr") };
 
     setChartData((prevState) => [...prevState, newChartData]);
     setChartDataTodo((prevState) => [...prevState, newChartDataToDo]);
