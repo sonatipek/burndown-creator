@@ -1,4 +1,3 @@
-import { RiAddCircleLine } from "@remixicon/react";
 import {
   Button,
   Table,
@@ -7,13 +6,13 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-  TextInput,
   LineChart,
 } from "@tremor/react";
 
 import { useEffect, useState } from "react";
 import { Modal } from "./components/Modal";
 import DatePickerComp from "./components/DatePicker";
+import AddWorkerModal from "./components/AddWorkerModal";
 
 const colors = [
   "stone",
@@ -58,11 +57,13 @@ const customTooltip = (props) => {
             key={idx}
             className="mt-1.5 flex flex-1 items-center justify-between space-x-2.5"
           >
-            <div className="space-y-1 flex gap-2 items-center justify-center">
+            <div className="flex items-center justify-center gap-2 space-y-1">
               <div
                 className={`flex size-3 items-center justify-center bg-${category.color}-500 rounded`}
               />
-              <p className="text-tremor-content-emphasis font-normal">{category.dataKey}</p>
+              <p className="font-normal text-tremor-content-emphasis">
+                {category.dataKey}
+              </p>
             </div>
             <p className="font-semibold text-tremor-content-strong">
               {category.value} Done
@@ -74,10 +75,6 @@ const customTooltip = (props) => {
 };
 
 export default function Example() {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [role, setRole] = useState("");
-
   const [employees, setEmployees] = useState(
     JSON.parse(localStorage.getItem("employees")) || [],
   );
@@ -95,33 +92,6 @@ export default function Example() {
       return dateA - dateB;
     });
     setState(sortedState);
-  };
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    if (name.length <= 0 || surname.length <= 0 || role.length <= 0) {
-      return alert("olmaz");
-    }
-    setEmployees((prevState) => [
-      ...prevState,
-      {
-        id: Date.now(),
-        name,
-        surname,
-        role,
-        status: {
-          todo: 0,
-          progress: 0,
-          waiting: 0,
-          test: 0,
-          done: 0,
-        },
-      },
-    ]);
-
-    setName("");
-    setSurname("");
-    setRole("");
   };
 
   const chartDataUpdate = (date) => {
@@ -276,88 +246,72 @@ export default function Example() {
 
   return (
     <main className="container mx-auto">
-      <form
-        action="#"
-        onSubmit={submitHandler}
-        className="mt-4 grid w-6/12 grid-cols-1 gap-x-4 gap-y-6 rounded border p-3 py-4 sm:grid-cols-6"
-      >
-        <TextInput
-          placeholder="Çalışanı ismi"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="col-span-3"
-        />
-        <TextInput
-          placeholder="Çalışanı soyadı"
-          type="text"
-          value={surname}
-          onChange={(e) => setSurname(e.target.value)}
-          className="col-span-3"
-        />
-
-        <TextInput
-          placeholder="Çalışanı rolü"
-          type="text"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="col-span-3"
-        />
-
-        <Button
-          icon={RiAddCircleLine}
-          type="submit"
-          onClick={submitHandler}
-          size="xs"
-          className="col-span-full"
-        >
-          Çalışanı Ekle
-        </Button>
-      </form>
-
-      <div className="mx-auto ">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell>Çalışan</TableHeaderCell>
-              <TableHeaderCell>Role</TableHeaderCell>
-              <TableHeaderCell>ToDo</TableHeaderCell>
-              <TableHeaderCell>In Progress</TableHeaderCell>
-              <TableHeaderCell>Waiting</TableHeaderCell>
-              <TableHeaderCell>Test</TableHeaderCell>
-              <TableHeaderCell>Done</TableHeaderCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {employees.map((employee) => (
-              <TableRow key={employee.id}>
-                <TableCell>{employee.name + " " + employee.surname}</TableCell>
-                <TableCell>{employee.role}</TableCell>
-                <TableCell>{employee.status.todo}</TableCell>
-                <TableCell>{employee.status.progress}</TableCell>
-                <TableCell>{employee.status.waiting}</TableCell>
-                <TableCell>{employee.status.test}</TableCell>
-                <TableCell>{employee.status.done}</TableCell>
-                <TableCell className="flex items-center justify-center gap-7">
-                  <Modal
-                    employee={employee}
-                    buttonText="Güncelle"
-                    editEmployeeStatus={editEmployeeStatus}
-                  />
-                  <Button
-                    onClick={() => deleteEmployee(employee.id)}
-                    color="red"
-                    className="px-4 py-0"
-                  >
-                    Sil
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="sm:flex sm:items-center sm:justify-between sm:space-x-10">
+        <div>
+          <h3 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+            Çalışanlar
+          </h3>
+          <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
+            Overview of all registered workers within your organization.
+          </p>
+        </div>
+        <AddWorkerModal setEmployees={setEmployees} employees={employees}/>
       </div>
+
+      <Table className="mt-8">
+        <TableHead>
+          <TableRow className="border-b border-tremor-border dark:border-dark-tremor-border">
+            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              Çalışan
+            </TableHeaderCell>
+            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              Rol
+            </TableHeaderCell>
+            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              ToDo
+            </TableHeaderCell>
+            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              In Progress
+            </TableHeaderCell>
+            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              Waiting
+            </TableHeaderCell>
+            <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              Test
+            </TableHeaderCell>
+            <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              Done
+            </TableHeaderCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {employees.map((employee) => (
+            <TableRow key={employee.id}>
+              <TableCell>{employee.name + " " + employee.surname}</TableCell>
+              <TableCell>{employee.role}</TableCell>
+              <TableCell>{employee.status.todo}</TableCell>
+              <TableCell>{employee.status.progress}</TableCell>
+              <TableCell>{employee.status.waiting}</TableCell>
+              <TableCell>{employee.status.test}</TableCell>
+              <TableCell>{employee.status.done}</TableCell>
+              <TableCell className="flex items-center justify-center gap-7">
+                <Modal
+                  employee={employee}
+                  buttonText="Güncelle"
+                  editEmployeeStatus={editEmployeeStatus}
+                />
+                <Button
+                  onClick={() => deleteEmployee(employee.id)}
+                  color="red"
+                  className="px-4 py-0"
+                >
+                  Sil
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
       <DatePickerComp
         chartDataAdd={chartDataAdd}
