@@ -1,6 +1,0 @@
-3. reducer
-1. supabase entegrasyon
-2. organizasyon'a göre chart görüntüleme
-3. farklı projeler ekleme. farklı projelere göre farklı çalışanlar ekleme
-4. çalışanları aktif pasif alma. tabloda pasif oldugu gözükür ve çartlarda ilerlemesi sürekli aynı kalır. pasif çalışana veri güncellemesi yapılamaz
-kullanılabilecek diğer veri görselleştirmeler bakılabilir. funnel chart vs. gibi
