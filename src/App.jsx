@@ -67,6 +67,7 @@ const customTooltip = (props) => {
   );
 };
 
+
 export default function Example() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -81,6 +82,15 @@ export default function Example() {
   const [chartdatatodo, setChartDataTodo] = useState(
     JSON.parse(localStorage.getItem("chartDataToDo")) || [],
   );
+
+  const sortByDate = (state, setState) => {
+    const sortedState = [...state].sort((a, b) => {
+        const dateA = new Date(a.date.split('.').reverse().join('-'));
+        const dateB = new Date(b.date.split('.').reverse().join('-'));
+        return dateA - dateB;
+    });
+    setState(sortedState);
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -152,6 +162,7 @@ export default function Example() {
   };
 
   const chartDataAdd = (date) => {
+    
     let isDateDuplicate = chartdata.filter(
       (item) => item.date === date.toLocaleDateString("tr"),
     );
@@ -163,13 +174,14 @@ export default function Example() {
         "zaten bu tarihte bir veri girişi var. Önce bu tarihi silin veya bu tarihi güncelleyin.",
       );
     }
+    
     let newChartData = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.done);
       return acc;
     }, {});
 
     newChartData = { ...newChartData, date: date.toLocaleDateString("tr") };
-
+    
     let newChartDataToDo = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.todo);
       return acc;
@@ -182,10 +194,12 @@ export default function Example() {
     setChartData((prevState) => [...prevState, newChartData]);
     setChartDataTodo((prevState) => [...prevState, newChartDataToDo]);
   };
+
   const clearCharts = () => {
     setChartData([]);
     setChartDataTodo([]);
   };
+
   const deleteEmployee = (id) => {
     if (employees.length <= 1) {
       let confirmResult = confirm(
@@ -236,10 +250,12 @@ export default function Example() {
 
   useEffect(() => {
     localStorage.setItem("chartData", JSON.stringify(chartdata));
+    sortByDate(chartdata, setChartData);
   }, [chartdata]);
 
   useEffect(() => {
     localStorage.setItem("chartDataToDo", JSON.stringify(chartdatatodo));
+    sortByDate(chartdatatodo, setChartDataTodo);
   }, [chartdatatodo]);
 
   return (
