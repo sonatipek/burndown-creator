@@ -43,30 +43,35 @@ function mapColors(number) {
   );
 }
 const customTooltip = (props) => {
-  const { payload, active } = props;
+  const { payload, active, label } = props;
   if (!active || !payload) return null;
 
   return (
-    <div className="w-56 rounded-tremor-default border border-tremor-border bg-tremor-background p-2 text-tremor-default shadow-tremor-dropdown">
+    <div className="min-w-40 max-w-64 rounded-tremor-default border border-tremor-border bg-tremor-background p-2 text-tremor-default shadow-tremor-dropdown">
+      <div className="mb-3 w-full rounded border border-tremor-border bg-tremor-background-subtle p-1 text-center font-medium">
+        {label}
+      </div>
       {payload
         .filter((item) => item.className !== "cursor-pointer")
         .map((category, idx) => (
-          <div key={idx} className="flex flex-1 space-x-2.5">
-            <div
-              className={`flex w-1 flex-col bg-${category.color}-500 rounded`}
-            />
-            <div className="space-y-1">
-              <p className="text-tremor-content">{category.dataKey}</p>
-              <p className="font-medium text-tremor-content-emphasis">
-                {category.value} bpm
-              </p>
+          <div
+            key={idx}
+            className="mt-1.5 flex flex-1 items-center justify-between space-x-2.5"
+          >
+            <div className="space-y-1 flex gap-2 items-center justify-center">
+              <div
+                className={`flex size-3 items-center justify-center bg-${category.color}-500 rounded`}
+              />
+              <p className="text-tremor-content-emphasis font-normal">{category.dataKey}</p>
             </div>
+            <p className="font-semibold text-tremor-content-strong">
+              {category.value} Done
+            </p>
           </div>
         ))}
     </div>
   );
 };
-
 
 export default function Example() {
   const [name, setName] = useState("");
@@ -85,9 +90,9 @@ export default function Example() {
 
   const sortByDate = (state, setState) => {
     const sortedState = [...state].sort((a, b) => {
-        const dateA = new Date(a.date.split('.').reverse().join('-'));
-        const dateB = new Date(b.date.split('.').reverse().join('-'));
-        return dateA - dateB;
+      const dateA = new Date(a.date.split(".").reverse().join("-"));
+      const dateB = new Date(b.date.split(".").reverse().join("-"));
+      return dateA - dateB;
     });
     setState(sortedState);
   };
@@ -135,8 +140,20 @@ export default function Example() {
       return acc;
     }, {});
 
-    setChartData(prevState => prevState.map(item => item.date === date.toLocaleDateString("tr") ? {...item, ...newChartData }: item))
-    setChartDataTodo(prevState => prevState.map(item => item.date === date.toLocaleDateString("tr") ? {...item, ...newChartDataToDo }: item))
+    setChartData((prevState) =>
+      prevState.map((item) =>
+        item.date === date.toLocaleDateString("tr")
+          ? { ...item, ...newChartData }
+          : item,
+      ),
+    );
+    setChartDataTodo((prevState) =>
+      prevState.map((item) =>
+        item.date === date.toLocaleDateString("tr")
+          ? { ...item, ...newChartDataToDo }
+          : item,
+      ),
+    );
   };
   const chartDataDelete = (date) => {
     if (
@@ -162,7 +179,6 @@ export default function Example() {
   };
 
   const chartDataAdd = (date) => {
-    
     let isDateDuplicate = chartdata.filter(
       (item) => item.date === date.toLocaleDateString("tr"),
     );
@@ -174,14 +190,14 @@ export default function Example() {
         "zaten bu tarihte bir veri girişi var. Önce bu tarihi silin veya bu tarihi güncelleyin.",
       );
     }
-    
+
     let newChartData = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.done);
       return acc;
     }, {});
 
     newChartData = { ...newChartData, date: date.toLocaleDateString("tr") };
-    
+
     let newChartDataToDo = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.todo);
       return acc;
