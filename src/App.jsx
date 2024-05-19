@@ -42,6 +42,31 @@ function mapColors(number) {
     (_, index) => colors[index % colors.length],
   );
 }
+const customTooltip = (props) => {
+  const { payload, active } = props;
+  if (!active || !payload) return null;
+
+  return (
+    <div className="w-56 rounded-tremor-default border border-tremor-border bg-tremor-background p-2 text-tremor-default shadow-tremor-dropdown">
+      {payload
+        .filter((item) => item.className !== "cursor-pointer")
+        .map((category, idx) => (
+          <div key={idx} className="flex flex-1 space-x-2.5">
+            <div
+              className={`flex w-1 flex-col bg-${category.color}-500 rounded`}
+            />
+            <div className="space-y-1">
+              <p className="text-tremor-content">{category.dataKey}</p>
+              <p className="font-medium text-tremor-content-emphasis">
+                {category.value} bpm
+              </p>
+            </div>
+          </div>
+        ))}
+    </div>
+  );
+};
+
 export default function Example() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -84,9 +109,59 @@ export default function Example() {
     setRole("");
   };
 
+  const chartDataUpdate = (date) => {
+    if (
+      chartdata.filter((item) => item.date === date.toLocaleDateString("tr"))
+        .length <= 0
+    ) {
+      return alert("seçtiğiniz tarihte güncellenecek bir veri girişi yok");
+    }
+    let newChartData = employees.reduce((acc, item) => {
+      acc[`${item.name}`] = Number(item.status.done);
+      return acc;
+    }, {});
+    let newChartDataToDo = employees.reduce((acc, item) => {
+      acc[`${item.name}`] = Number(item.status.todo);
+      return acc;
+    }, {});
+
+    setChartData(prevState => prevState.map(item => item.date === date.toLocaleDateString("tr") ? {...item, ...newChartData }: item))
+    setChartDataTodo(prevState => prevState.map(item => item.date === date.toLocaleDateString("tr") ? {...item, ...newChartDataToDo }: item))
+  };
+  const chartDataDelete = (date) => {
+    if (
+      chartdata.filter((item) => item.date === date.toLocaleDateString("tr"))
+        .length <= 0
+    ) {
+      return alert("seçtiğiniz tarihte bir veri girişi zaten yok");
+    }
+    if (
+      !confirm(
+        "bu tarihte çalışanlara ait tüm veriler silinecektir. Onaylıyor musun?",
+      )
+    ) {
+      return;
+    }
+
+    setChartData((prevState) =>
+      prevState.filter((item) => item.date !== date.toLocaleDateString("tr")),
+    );
+    setChartDataTodo((prevState) =>
+      prevState.filter((item) => item.date !== date.toLocaleDateString("tr")),
+    );
+  };
+
   const chartDataAdd = (date) => {
+    let isDateDuplicate = chartdata.filter(
+      (item) => item.date === date.toLocaleDateString("tr"),
+    );
+
     if (employees.length <= 0) {
       return alert("güncellemem");
+    } else if (isDateDuplicate.length >= 1) {
+      return alert(
+        "zaten bu tarihte bir veri girişi var. Önce bu tarihi silin veya bu tarihi güncelleyin.",
+      );
     }
     let newChartData = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.done);
@@ -99,7 +174,10 @@ export default function Example() {
       acc[`${item.name}`] = Number(item.status.todo);
       return acc;
     }, {});
-    newChartDataToDo = { ...newChartDataToDo, date: date.toLocaleDateString("tr") };
+    newChartDataToDo = {
+      ...newChartDataToDo,
+      date: date.toLocaleDateString("tr"),
+    };
 
     setChartData((prevState) => [...prevState, newChartData]);
     setChartDataTodo((prevState) => [...prevState, newChartDataToDo]);
@@ -119,8 +197,8 @@ export default function Example() {
         clearCharts();
         setEmployees((prevState) =>
           prevState.filter((employee) => employee.id !== id),
-        )
-        return
+        );
+        return;
       }
     }
     confirm("emin misiniz")
@@ -249,10 +327,16 @@ export default function Example() {
         </Table>
       </div>
 
-      <DatePickerComp chartDataAdd={chartDataAdd} />
+      <DatePickerComp
+        chartDataAdd={chartDataAdd}
+        chartDataDelete={chartDataDelete}
+        chartDataUpdate={chartDataUpdate}
+      />
 
       <div className="flex flex-col gap-4">
-        <h1>Kişi bazlı kim ne kadar çalıştı</h1>
+        <h1 className="mt-3 text-tremor-metric font-semibold text-tremor-content-strong">
+          Kişi bazlı kim ne kadar çalıştı
+        </h1>
         <LineChart
           className="h-80"
           data={chartdata}
@@ -263,9 +347,12 @@ export default function Example() {
           colors={mapColors(employees.length)}
           yAxisWidth={60}
           onValueChange={(v) => console.log(v)}
+          customTooltip={customTooltip}
         />
 
-        <h1>Kimin ne kadar işi kaldı</h1>
+        <h1 className="mt-3 text-tremor-metric font-semibold text-tremor-content-strong">
+          Kimin ne kadar işi kaldı
+        </h1>
         <LineChart
           className="h-80"
           data={chartdatatodo}
@@ -278,7 +365,9 @@ export default function Example() {
           onValueChange={(v) => console.log(v)}
         />
 
-        <h1>Toplamda ne kadar iş kaldı</h1>
+        <h1 className="mt-3 text-tremor-metric font-semibold text-tremor-content-strong">
+          Toplamda ne kadar iş kaldı
+        </h1>
       </div>
     </main>
   );

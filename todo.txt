@@ -1,4 +1,9 @@
+3. reducer
+4. eklenen tarih güncelleme
+ancaka bazı durumlarda hiç iş yapmamış calısan güncellenmediğinde o o tarihi pas geçmiş olur. ya da bir önceki veri eklenebilir. ayrıca hata yapılan tarih eklemelerinde düzenleme imkanı sağlanır
+5. geçmişte bir tarih eklenince bu tarihin ileriye değil, olması gerektiği yere eklenmesi gerekiyor. sıralama olmalı yani. sıralı bir şekilde state'e eklenirse sorun kalmaz.
 1. supabase entegrasyon
 2. organizasyon'a göre chart görüntüleme
-3. reducer
-4. sayfayı yenilediğimde tabloyu güncelleme kısmındaki veriler güncelleme ekranında sıfırlanıyor
+3. farklı projeler ekleme. farklı projelere göre farklı çalışanlar ekleme
+4. çalışanları aktif pasif alma. tabloda pasif oldugu gözükür ve çartlarda ilerlemesi sürekli aynı kalır. pasif çalışana veri güncellemesi yapılamaz
+kullanılabilecek diğer veri görselleştirmeler bakılabilir. funnel chart vs. gibi
