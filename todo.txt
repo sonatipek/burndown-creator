@@ -1,3 +1,4 @@
 1. supabase entegrasyon
 2. organizasyon'a göre chart görüntüleme
 3. reducer
+4. sayfayı yenilediğimde tabloyu güncelleme kısmındaki veriler güncelleme ekranında sıfırlanıyor

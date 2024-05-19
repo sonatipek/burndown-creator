@@ -8,13 +8,40 @@ import {
   TableHeaderCell,
   TableRow,
   TextInput,
-  // LineChart,
+  LineChart,
 } from "@tremor/react";
 
 import { useEffect, useState } from "react";
 import { Modal } from "./components/Modal";
 import DatePickerComp from "./components/DatePicker";
 
+const colors = [
+  "stone",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "emerald",
+  "teal",
+  "cyan",
+  "sky",
+  "blue",
+  "indigo",
+  "violet",
+  "lime",
+  "purple",
+  "fuchsia",
+  "pink",
+  "amber",
+  "rose",
+];
+
+function mapColors(number) {
+  return Array.from(
+    { length: number },
+    (_, index) => colors[index % colors.length],
+  );
+}
 export default function Example() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -23,12 +50,18 @@ export default function Example() {
   const [employees, setEmployees] = useState(
     JSON.parse(localStorage.getItem("employees")) || [],
   );
-  // const [chartdata, setChartData] = useState(
-  //   JSON.parse(localStorage.getItem("chartData")) || [],
-  // );
+  const [chartdata, setChartData] = useState(
+    JSON.parse(localStorage.getItem("chartData")) || [],
+  );
+  const [chartdatatodo, setChartDataTodo] = useState(
+    JSON.parse(localStorage.getItem("chartDataToDo")) || [],
+  );
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (name.length <= 0 || surname.length <= 0 || role.length <= 0) {
+      return alert("olmaz");
+    }
     setEmployees((prevState) => [
       ...prevState,
       {
@@ -52,21 +85,49 @@ export default function Example() {
   };
 
   const chartDataAdd = (date) => {
-    // setChartData((prevState) => [
-    //   ...prevState,
-    //   {
-    //     date: date.toLocaleDateString("tr"),
-    //     "Emirhan Erol": 20,
-    //     "Sonat İpek": 20,
-    //   },
-    // ]);
-    console.log(date);
-  };
+    if (employees.length <= 0) {
+      return alert("güncellemem");
+    }
+    let newChartData = employees.reduce((acc, item) => {
+      acc[`${item.name}`] = Number(item.status.done);
+      return acc;
+    }, {});
 
+    newChartData = { ...newChartData, date: date.toLocaleDateString("tr") };
+
+    let newChartDataToDo = employees.reduce((acc, item) => {
+      acc[`${item.name}`] = Number(item.status.todo);
+      return acc;
+    }, {});
+    newChartDataToDo = { ...newChartData, date: date.toLocaleDateString("tr") };
+
+    setChartData((prevState) => [...prevState, newChartData]);
+    setChartDataTodo((prevState) => [...prevState, newChartDataToDo]);
+  };
+  const clearCharts = () => {
+    setChartData([]);
+    setChartDataTodo([]);
+  };
   const deleteEmployee = (id) => {
-    setEmployees((prevState) =>
-      prevState.filter((employee) => employee.id !== id),
-    );
+    if (employees.length <= 1) {
+      let confirmResult = confirm(
+        "bu son çalışanınız, tüm çalışanlar silinirse mevcut grafik de sıfırlanacaktır. KABUL EDİYOR MUSUNUZ",
+      );
+      if (!confirmResult) {
+        return;
+      } else {
+        clearCharts();
+        setEmployees((prevState) =>
+          prevState.filter((employee) => employee.id !== id),
+        )
+        return
+      }
+    }
+    confirm("emin misiniz")
+      ? setEmployees((prevState) =>
+          prevState.filter((employee) => employee.id !== id),
+        )
+      : "";
   };
 
   const editEmployeeStatus = (id, todo, progress, waiting, test, done) => {
@@ -99,29 +160,47 @@ export default function Example() {
     localStorage.setItem("chartData", JSON.stringify(chartdata));
   }, [chartdata]);
 
+  useEffect(() => {
+    localStorage.setItem("chartDataToDo", JSON.stringify(chartdatatodo));
+  }, [chartdatatodo]);
+
   return (
     <main className="container mx-auto">
-      <form action="#" onSubmit={submitHandler}>
+      <form
+        action="#"
+        onSubmit={submitHandler}
+        className="mt-4 grid w-6/12 grid-cols-1 gap-x-4 gap-y-6 rounded border p-3 py-4 sm:grid-cols-6"
+      >
         <TextInput
           placeholder="Çalışanı ismi"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="col-span-3"
         />
         <TextInput
           placeholder="Çalışanı soyadı"
           type="text"
           value={surname}
           onChange={(e) => setSurname(e.target.value)}
+          className="col-span-3"
         />
+
         <TextInput
           placeholder="Çalışanı rolü"
           type="text"
           value={role}
           onChange={(e) => setRole(e.target.value)}
+          className="col-span-3"
         />
 
-        <Button icon={RiAddCircleLine} type="submit" onClick={submitHandler}>
+        <Button
+          icon={RiAddCircleLine}
+          type="submit"
+          onClick={submitHandler}
+          size="xs"
+          className="col-span-full"
+        >
           Çalışanı Ekle
         </Button>
       </form>
@@ -150,13 +229,19 @@ export default function Example() {
                 <TableCell>{employee.status.waiting}</TableCell>
                 <TableCell>{employee.status.test}</TableCell>
                 <TableCell>{employee.status.done}</TableCell>
-                <TableCell className="flex gap-3">
+                <TableCell className="flex items-center justify-center gap-7">
                   <Modal
                     employee={employee}
                     buttonText="Güncelle"
                     editEmployeeStatus={editEmployeeStatus}
                   />
-                  <button onClick={() => deleteEmployee(employee.id)} >Sil</button>
+                  <Button
+                    onClick={() => deleteEmployee(employee.id)}
+                    color="red"
+                    className="px-4 py-0"
+                  >
+                    Sil
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -166,17 +251,35 @@ export default function Example() {
 
       <DatePickerComp chartDataAdd={chartDataAdd} />
 
-      {/* <LineChart
-        className="h-80"
-        data={chartdata}
-        index="date"
-        categories={employees
-          .filter((item) => item.name.trim() !== "")
-          .map((item) => item.name + " " + item.surname)}
-        colors={["indigo", "rose"]}
-        yAxisWidth={60}
-        onValueChange={(v) => console.log(v)}
-      /> */}
+      <div className="flex flex-col gap-4">
+        <h1>Kişi bazlı kim ne kadar çalıştı</h1>
+        <LineChart
+          className="h-80"
+          data={chartdata}
+          index="date"
+          categories={employees
+            .filter((item) => item.name.trim() !== "")
+            .map((item) => item.name)}
+          colors={mapColors(employees.length)}
+          yAxisWidth={60}
+          onValueChange={(v) => console.log(v)}
+        />
+
+        <h1>Kimin ne kadar işi kaldı</h1>
+        <LineChart
+          className="h-80"
+          data={chartdatatodo}
+          index="date"
+          categories={employees
+            .filter((item) => item.name.trim() !== "")
+            .map((item) => item.name)}
+          colors={mapColors(employees.length)}
+          yAxisWidth={60}
+          onValueChange={(v) => console.log(v)}
+        />
+
+        <h1>Toplamda ne kadar iş kaldı</h1>
+      </div>
     </main>
   );
 }

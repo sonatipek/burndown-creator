@@ -4,11 +4,11 @@ import { useState } from "react";
 
 export function Modal({ employee, buttonText, editEmployeeStatus }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [todo, setTodo] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [waiting, setWaiting] = useState(0);
-  const [test, setTest] = useState(0);
-  const [done, setDone] = useState(0);
+  const [todo, setTodo] = useState(employee.status.todo);
+  const [progress, setProgress] = useState(employee.status.progress);
+  const [waiting, setWaiting] = useState(employee.status.waiting);
+  const [test, setTest] = useState(employee.status.test);
+  const [done, setDone] = useState(employee.status.done);
 
   return (
     <>
@@ -131,7 +131,7 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
                   setIsOpen(false);
                 }}
               >
-                İstatistikleri Düzenle
+                İstatistikleri Güncelle
               </Button>
             </form>
           </div>
