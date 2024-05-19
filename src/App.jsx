@@ -7,6 +7,7 @@ import {
   TableHeaderCell,
   TableRow,
   LineChart,
+  Card,
 } from "@tremor/react";
 
 import { useEffect, useState } from "react";
@@ -246,72 +247,75 @@ export default function Example() {
 
   return (
     <main className="container mx-auto">
-      <div className="sm:flex sm:items-center sm:justify-between sm:space-x-10">
-        <div>
-          <h3 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Çalışanlar
-          </h3>
-          <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-            Overview of all registered workers within your organization.
-          </p>
+      <Card className="my-8">
+        <div className="sm:flex sm:items-center sm:justify-between sm:space-x-10">
+          <div>
+            <h3 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+              Çalışanlar
+            </h3>
+            <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
+              Overview of all registered workers within your organization.
+            </p>
+          </div>
+          <AddWorkerModal setEmployees={setEmployees} employees={employees} />
         </div>
-        <AddWorkerModal setEmployees={setEmployees} employees={employees}/>
-      </div>
 
-      <Table className="mt-8">
-        <TableHead>
-          <TableRow className="border-b border-tremor-border dark:border-dark-tremor-border">
-            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Çalışan
-            </TableHeaderCell>
-            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Rol
-            </TableHeaderCell>
-            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              ToDo
-            </TableHeaderCell>
-            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              In Progress
-            </TableHeaderCell>
-            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Waiting
-            </TableHeaderCell>
-            <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Test
-            </TableHeaderCell>
-            <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Done
-            </TableHeaderCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {employees.map((employee) => (
-            <TableRow key={employee.id}>
-              <TableCell>{employee.name + " " + employee.surname}</TableCell>
-              <TableCell>{employee.role}</TableCell>
-              <TableCell>{employee.status.todo}</TableCell>
-              <TableCell>{employee.status.progress}</TableCell>
-              <TableCell>{employee.status.waiting}</TableCell>
-              <TableCell>{employee.status.test}</TableCell>
-              <TableCell>{employee.status.done}</TableCell>
-              <TableCell className="flex items-center justify-center gap-7">
-                <Modal
-                  employee={employee}
-                  buttonText="Güncelle"
-                  editEmployeeStatus={editEmployeeStatus}
-                />
-                <Button
-                  onClick={() => deleteEmployee(employee.id)}
-                  color="red"
-                  className="px-4 py-0"
-                >
-                  Sil
-                </Button>
-              </TableCell>
+        <Table className="mt-4 max-h-64">
+          <TableHead className="sticky left-0 right-0 top-0 bg-white">
+            <TableRow className="border-b border-tremor-border dark:border-dark-tremor-border">
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Çalışan
+              </TableHeaderCell>
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Rol
+              </TableHeaderCell>
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                ToDo
+              </TableHeaderCell>
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                In Progress
+              </TableHeaderCell>
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Waiting
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Test
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                Done
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong"></TableHeaderCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {employees.map((employee) => (
+              <TableRow key={employee.id}>
+                <TableCell>{employee.name + " " + employee.surname}</TableCell>
+                <TableCell>{employee.role}</TableCell>
+                <TableCell>{employee.status.todo}</TableCell>
+                <TableCell>{employee.status.progress}</TableCell>
+                <TableCell>{employee.status.waiting}</TableCell>
+                <TableCell>{employee.status.test}</TableCell>
+                <TableCell>{employee.status.done}</TableCell>
+                <TableCell className="flex items-center justify-center gap-7">
+                  <Modal
+                    employee={employee}
+                    buttonText="Güncelle"
+                    editEmployeeStatus={editEmployeeStatus}
+                  />
+                  <Button
+                    onClick={() => deleteEmployee(employee.id)}
+                    color="red"
+                    className="px-4 py-0"
+                  >
+                    Sil
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Card>
 
       <DatePickerComp
         chartDataAdd={chartDataAdd}
