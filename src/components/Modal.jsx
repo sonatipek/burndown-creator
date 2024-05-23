@@ -1,5 +1,6 @@
 import { RiAddCircleLine, RiEdit2Line } from "@remixicon/react";
 import { Button, Dialog, DialogPanel, NumberInput } from "@tremor/react";
+import { t } from "i18next";
 import { useState } from "react";
 
 export function Modal({ employee, buttonText, editEmployeeStatus }) {
@@ -33,9 +34,9 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
               <div>
                 <label
                   htmlFor="todo-stats"
-                  className="text-center font-mono text-sm text-slate-500"
+                  className="block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
                 >
-                  To-Do Stats
+                  {t("toDo")}
                 </label>
 
                 <NumberInput
@@ -49,9 +50,9 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
               <div>
                 <label
                   htmlFor="progress-stats"
-                  className="text-center font-mono text-sm text-slate-500"
+                  className="block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
                 >
-                  Progress Stats
+                  {t("inProgress")}
                 </label>
 
                 <NumberInput
@@ -66,9 +67,9 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
               <div>
                 <label
                   htmlFor="waiting-stats"
-                  className="text-center font-mono text-sm text-slate-500"
+                  className="block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
                 >
-                  Waiting Stats
+                  {t("waiting")}
                 </label>
 
                 <NumberInput
@@ -83,9 +84,9 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
               <div>
                 <label
                   htmlFor="test-stats"
-                  className="text-center font-mono text-sm text-slate-500"
+                  className="block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
                 >
-                  Test Stats
+                  {t("test")}
                 </label>
 
                 <NumberInput
@@ -100,9 +101,9 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
               <div>
                 <label
                   htmlFor="done-stats"
-                  className="text-center font-mono text-sm text-slate-500"
+                  className="block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
                 >
-                  Done Stats
+                  {t("done")}
                 </label>
 
                 <NumberInput
@@ -131,7 +132,7 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
                   setIsOpen(false);
                 }}
               >
-                İstatistikleri Güncelle
+                {t("update")}
               </Button>
             </form>
           </div>

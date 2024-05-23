@@ -1,5 +1,4 @@
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -9,11 +8,15 @@ import {
   LineChart,
   Card,
 } from "@tremor/react";
+import { useTranslation } from "react-i18next";
 
 import { useEffect, useState } from "react";
 import { Modal } from "./components/Modal";
 import DatePickerComp from "./components/DatePicker";
 import AddWorkerModal from "./components/AddWorkerModal";
+import { RiDeleteBin6Line } from "@remixicon/react";
+import { Icon } from "@tremor/react";
+import { t } from "i18next";
 
 const colors = [
   "stone",
@@ -67,7 +70,7 @@ const customTooltip = (props) => {
               </p>
             </div>
             <p className="font-semibold text-tremor-content-strong">
-              {category.value} Done
+              {category.value} {t("done")}
             </p>
           </div>
         ))}
@@ -76,6 +79,7 @@ const customTooltip = (props) => {
 };
 
 export default function Example() {
+  const { t } = useTranslation();
   const [employees, setEmployees] = useState(
     JSON.parse(localStorage.getItem("employees")) || [],
   );
@@ -88,8 +92,8 @@ export default function Example() {
 
   const sortByDate = (state, setState) => {
     const sortedState = [...state].sort((a, b) => {
-      const dateA = new Date(a.date.split(".").reverse().join("-"));
-      const dateB = new Date(b.date.split(".").reverse().join("-"));
+      const dateA = new Date(a.date.split("/").reverse().join("-"));
+      const dateB = new Date(b.date.split("/").reverse().join("-"));
       return dateA - dateB;
     });
     setState(sortedState);
@@ -97,10 +101,10 @@ export default function Example() {
 
   const chartDataUpdate = (date) => {
     if (
-      chartdata.filter((item) => item.date === date.toLocaleDateString("tr"))
+      chartdata.filter((item) => item.date === date.toLocaleDateString("en-UK"))
         .length <= 0
     ) {
-      return alert("seçtiğiniz tarihte güncellenecek bir veri girişi yok");
+      return alert(t("noDatEntryToUpdate"));
     }
     let newChartData = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.done);
@@ -113,14 +117,14 @@ export default function Example() {
 
     setChartData((prevState) =>
       prevState.map((item) =>
-        item.date === date.toLocaleDateString("tr")
+        item.date === date.toLocaleDateString("en-UK")
           ? { ...item, ...newChartData }
           : item,
       ),
     );
     setChartDataTodo((prevState) =>
       prevState.map((item) =>
-        item.date === date.toLocaleDateString("tr")
+        item.date === date.toLocaleDateString("en-UK")
           ? { ...item, ...newChartDataToDo }
           : item,
       ),
@@ -128,37 +132,37 @@ export default function Example() {
   };
   const chartDataDelete = (date) => {
     if (
-      chartdata.filter((item) => item.date === date.toLocaleDateString("tr"))
+      chartdata.filter((item) => item.date === date.toLocaleDateString("en-UK"))
         .length <= 0
     ) {
-      return alert("seçtiğiniz tarihte bir veri girişi zaten yok");
+      return alert(t("noDataEntryToDelete"));
     }
     if (
       !confirm(
-        "bu tarihte çalışanlara ait tüm veriler silinecektir. Onaylıyor musun?",
+        t("willBeDeletedConfirm"),
       )
     ) {
       return;
     }
 
     setChartData((prevState) =>
-      prevState.filter((item) => item.date !== date.toLocaleDateString("tr")),
+      prevState.filter((item) => item.date !== date.toLocaleDateString("en-UK")),
     );
     setChartDataTodo((prevState) =>
-      prevState.filter((item) => item.date !== date.toLocaleDateString("tr")),
+      prevState.filter((item) => item.date !== date.toLocaleDateString("en-UK")),
     );
   };
 
   const chartDataAdd = (date) => {
     let isDateDuplicate = chartdata.filter(
-      (item) => item.date === date.toLocaleDateString("tr"),
+      (item) => item.date === date.toLocaleDateString("en-UK"),
     );
 
     if (employees.length <= 0) {
-      return alert("güncellemem");
+      return alert(t("youMustAddLeastOneEmployee"));
     } else if (isDateDuplicate.length >= 1) {
       return alert(
-        "zaten bu tarihte bir veri girişi var. Önce bu tarihi silin veya bu tarihi güncelleyin.",
+        t("alreadyHaveData"),
       );
     }
 
@@ -167,7 +171,7 @@ export default function Example() {
       return acc;
     }, {});
 
-    newChartData = { ...newChartData, date: date.toLocaleDateString("tr") };
+    newChartData = { ...newChartData, date: date.toLocaleDateString("en-UK") };
 
     let newChartDataToDo = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.todo);
@@ -175,7 +179,7 @@ export default function Example() {
     }, {});
     newChartDataToDo = {
       ...newChartDataToDo,
-      date: date.toLocaleDateString("tr"),
+      date: date.toLocaleDateString("en-UK"),
     };
 
     setChartData((prevState) => [...prevState, newChartData]);
@@ -190,7 +194,7 @@ export default function Example() {
   const deleteEmployee = (id) => {
     if (employees.length <= 1) {
       let confirmResult = confirm(
-        "bu son çalışanınız, tüm çalışanlar silinirse mevcut grafik de sıfırlanacaktır. KABUL EDİYOR MUSUNUZ",
+        t("lastEmployeeConfirm"),
       );
       if (!confirmResult) {
         return;
@@ -202,7 +206,7 @@ export default function Example() {
         return;
       }
     }
-    confirm("emin misiniz")
+    confirm(t("areYouSure"))
       ? setEmployees((prevState) =>
           prevState.filter((employee) => employee.id !== id),
         )
@@ -251,10 +255,10 @@ export default function Example() {
         <div className="sm:flex sm:items-center sm:justify-between sm:space-x-10">
           <div>
             <h3 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Çalışanlar
+              {t("employees")}
             </h3>
             <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-              Overview of all registered workers within your organization.
+              {t("overviewEmployeesTableDesc")}
             </p>
           </div>
           <AddWorkerModal setEmployees={setEmployees} employees={employees} />
@@ -264,27 +268,29 @@ export default function Example() {
           <TableHead className="sticky left-0 right-0 top-0 bg-white">
             <TableRow className="border-b border-tremor-border dark:border-dark-tremor-border">
               <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                Çalışan
+                {t("employee")}
               </TableHeaderCell>
               <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                Rol
+                {t("role")}
               </TableHeaderCell>
               <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                ToDo
+                {t("toDo")}
               </TableHeaderCell>
               <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                In Progress
+                {t("inProgress")}
               </TableHeaderCell>
               <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                Waiting
+                {t("waiting")}
               </TableHeaderCell>
-              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                Test
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                {t("test")}
               </TableHeaderCell>
-              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                Done
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                {t("done")}
               </TableHeaderCell>
-              <TableHeaderCell className="text-right text-tremor-content-strong dark:text-dark-tremor-content-strong"></TableHeaderCell>
+              <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
+                {" "}
+              </TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -300,16 +306,17 @@ export default function Example() {
                 <TableCell className="flex items-center justify-center gap-7">
                   <Modal
                     employee={employee}
-                    buttonText="Güncelle"
+                    buttonText={t("updateStats")}
                     editEmployeeStatus={editEmployeeStatus}
                   />
-                  <Button
+                  <Icon
                     onClick={() => deleteEmployee(employee.id)}
+                    icon={RiDeleteBin6Line}
+                    tooltip={t("delete")}
+                    size="sm"
                     color="red"
-                    className="px-4 py-0"
-                  >
-                    Sil
-                  </Button>
+                    className="cursor-pointer"
+                  />
                 </TableCell>
               </TableRow>
             ))}
@@ -325,7 +332,7 @@ export default function Example() {
 
       <div className="flex flex-col gap-4">
         <h1 className="mt-3 text-tremor-metric font-semibold text-tremor-content-strong">
-          Kişi bazlı kim ne kadar çalıştı
+          {t("employeeBasedActivities")}
         </h1>
         <LineChart
           className="h-80"
@@ -338,10 +345,11 @@ export default function Example() {
           yAxisWidth={60}
           onValueChange={(v) => console.log(v)}
           customTooltip={customTooltip}
+          noDataText={t("noDataText")}
         />
 
         <h1 className="mt-3 text-tremor-metric font-semibold text-tremor-content-strong">
-          Kimin ne kadar işi kaldı
+          {t("employeeBasedRemainingWork")}
         </h1>
         <LineChart
           className="h-80"
@@ -353,10 +361,11 @@ export default function Example() {
           colors={mapColors(employees.length)}
           yAxisWidth={60}
           onValueChange={(v) => console.log(v)}
+          noDataText={t("noDataText")}
         />
 
         <h1 className="mt-3 text-tremor-metric font-semibold text-tremor-content-strong">
-          Toplamda ne kadar iş kaldı
+          {t("remainingWorks")}
         </h1>
       </div>
     </main>

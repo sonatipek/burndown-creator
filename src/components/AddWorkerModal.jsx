@@ -1,5 +1,6 @@
 import { RiAddCircleLine, RiAddFill, RiCloseLine } from "@remixicon/react";
 import { Button, Dialog, DialogPanel, TextInput } from "@tremor/react";
+import { t } from "i18next";
 import { useState } from "react";
 
 export default function AddWorkerModal({ setEmployees, employees }) {
@@ -10,13 +11,21 @@ export default function AddWorkerModal({ setEmployees, employees }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    let duplicateName = employees.filter(employee => employee.name.trim() === name.trim()),
-    duplicateSurname = employees.filter(employee => employee.surname.trim() === surname.trim());
+    let duplicateName = employees.filter(
+        (employee) => employee.name.trim() === name.trim(),
+      ),
+      duplicateSurname = employees.filter(
+        (employee) => employee.surname.trim() === surname.trim(),
+      );
 
-    if (name.length <= 3 || surname.length <= 0 || role.length <= 5) {
-      return alert("olmaz");
-    } else if (duplicateName.length >= 1 && duplicateSurname.length >= 1){
-        return alert("Aynı isimde bir çalışan zaten var")
+    if (name.length <= 3) {
+      return alert(t("requiredAndMinCharField", {field: t("name"), min: 3}));
+    } else if (surname.length <= 0){
+      return alert(t("requiredField", {field: t("surname")}));
+    } else if (role.length <= 0){
+      return alert(t("requiredField", {field: t("role")}));
+    } else if (duplicateName.length >= 1 && duplicateSurname.length >= 1) {
+      return alert(t("alreadyHaveEmployeeSameName"));
     }
 
     setEmployees((prevState) => [
@@ -48,7 +57,7 @@ export default function AddWorkerModal({ setEmployees, employees }) {
         variant="light"
         onClick={() => setIsOpen(true)}
       >
-        Add Worker
+        {t("addNewEmployee")}
       </Button>
       <Dialog
         open={isOpen}
@@ -69,7 +78,7 @@ export default function AddWorkerModal({ setEmployees, employees }) {
           </div>
 
           <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Çalışan Ekle
+            {t("addNewEmployee")}
           </h4>
 
           <form
@@ -78,7 +87,7 @@ export default function AddWorkerModal({ setEmployees, employees }) {
             className="mt-4 space-y-3 p-1"
           >
             <label className="block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Çalışanın Adı ve Soyadı
+              {t("employeeNameAndSurname")}
             </label>
             <div className="flex gap-4">
               <TextInput
@@ -95,7 +104,7 @@ export default function AddWorkerModal({ setEmployees, employees }) {
               />
             </div>
             <label className="!mt-4 block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              Çalışanın Rolü
+              {t("employeeRole")}
             </label>
             <TextInput
               placeholder="Frontend Developer"
@@ -111,7 +120,7 @@ export default function AddWorkerModal({ setEmployees, employees }) {
               size="xs"
               className="!mt-6 w-full"
             >
-              Çalışanı Ekle
+              {t("addEmployee")}
             </Button>
           </form>
         </DialogPanel>
