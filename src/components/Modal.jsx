@@ -2,15 +2,24 @@ import { RiAddCircleLine, RiEdit2Line } from "@remixicon/react";
 import { Button, Dialog, DialogPanel, NumberInput } from "@tremor/react";
 import { t } from "i18next";
 import { useState } from "react";
+import { useEmployeesStore } from "../states/employees";
 
-export function Modal({ employee, buttonText, editEmployeeStatus }) {
+export function Modal({ employee, buttonText }) {
   const [isOpen, setIsOpen] = useState(false);
   const [todo, setTodo] = useState(employee.status.todo);
   const [progress, setProgress] = useState(employee.status.progress);
   const [waiting, setWaiting] = useState(employee.status.waiting);
   const [test, setTest] = useState(employee.status.test);
   const [done, setDone] = useState(employee.status.done);
+  const editEmployeeStats = useEmployeesStore(
+    (state) => state.editEmployeeStats,
+  );
 
+  const formSubmitHandler = () => {
+    editEmployeeStats(employee.id, todo, progress, waiting, test, done);
+    setIsOpen(false);
+  };
+  
   return (
     <>
       <Button
@@ -120,17 +129,7 @@ export function Modal({ employee, buttonText, editEmployeeStatus }) {
                 icon={RiAddCircleLine}
                 variant="secondary"
                 type="submit"
-                onClick={() => {
-                  editEmployeeStatus(
-                    employee.id,
-                    todo,
-                    progress,
-                    waiting,
-                    test,
-                    done,
-                  );
-                  setIsOpen(false);
-                }}
+                onClick={formSubmitHandler}
               >
                 {t("update")}
               </Button>

@@ -10,13 +10,16 @@ import {
 } from "@tremor/react";
 import { useTranslation } from "react-i18next";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Modal } from "./components/Modal";
 import DatePickerComp from "./components/DatePicker";
 import AddWorkerModal from "./components/AddWorkerModal";
 import { RiDeleteBin6Line } from "@remixicon/react";
 import { Icon } from "@tremor/react";
 import { t } from "i18next";
+import { useEmployeesStore } from "./states/employees";
+import { useChartDatasStore } from "./states/chartDatas";
+import { useChartDataTodosStore } from "./states/chartDataTodos";
 
 const colors = [
   "stone",
@@ -80,159 +83,45 @@ const customTooltip = (props) => {
 
 export default function Example() {
   const { t } = useTranslation();
-  const [employees, setEmployees] = useState(
-    JSON.parse(localStorage.getItem("employees")) || [],
+  // Employee State
+  const employees = useEmployeesStore((state) => state.employees);
+  const deleteEmployee = useEmployeesStore((state) => state.deleteEmployee);
+
+  const resetTodosChartData = useChartDataTodosStore(
+    (state) => state.resetTodosChartData,
   );
-  const [chartdata, setChartData] = useState(
-    JSON.parse(localStorage.getItem("chartData")) || [],
-  );
-  const [chartdatatodo, setChartDataTodo] = useState(
-    JSON.parse(localStorage.getItem("chartDataToDo")) || [],
-  );
+  const resetChartData = useChartDatasStore((state) => state.resetChartData);
+  
+  const chartDatas = useChartDatasStore((state) => state.chartDatas);
+  const chartDataTodos = useChartDataTodosStore((state) => state.chartDataTodos);
 
-  const sortByDate = (state, setState) => {
-    const sortedState = [...state].sort((a, b) => {
-      const dateA = new Date(a.date.split("/").reverse().join("-"));
-      const dateB = new Date(b.date.split("/").reverse().join("-"));
-      return dateA - dateB;
-    });
-    setState(sortedState);
-  };
 
-  const chartDataUpdate = (date) => {
-    if (
-      chartdata.filter((item) => item.date === date.toLocaleDateString("en-UK"))
-        .length <= 0
-    ) {
-      return alert(t("noDatEntryToUpdate"));
-    }
-    let newChartData = employees.reduce((acc, item) => {
-      acc[`${item.name}`] = Number(item.status.done);
-      return acc;
-    }, {});
-    let newChartDataToDo = employees.reduce((acc, item) => {
-      acc[`${item.name}`] = Number(item.status.todo);
-      return acc;
-    }, {});
-
-    setChartData((prevState) =>
-      prevState.map((item) =>
-        item.date === date.toLocaleDateString("en-UK")
-          ? { ...item, ...newChartData }
-          : item,
-      ),
-    );
-    setChartDataTodo((prevState) =>
-      prevState.map((item) =>
-        item.date === date.toLocaleDateString("en-UK")
-          ? { ...item, ...newChartDataToDo }
-          : item,
-      ),
-    );
-  };
-  const chartDataDelete = (date) => {
-    if (
-      chartdata.filter((item) => item.date === date.toLocaleDateString("en-UK"))
-        .length <= 0
-    ) {
-      return alert(t("noDataEntryToDelete"));
-    }
-    if (
-      !confirm(
-        t("willBeDeletedConfirm"),
-      )
-    ) {
-      return;
-    }
-
-    setChartData((prevState) =>
-      prevState.filter((item) => item.date !== date.toLocaleDateString("en-UK")),
-    );
-    setChartDataTodo((prevState) =>
-      prevState.filter((item) => item.date !== date.toLocaleDateString("en-UK")),
-    );
-  };
-
-  const chartDataAdd = (date) => {
-    let isDateDuplicate = chartdata.filter(
-      (item) => item.date === date.toLocaleDateString("en-UK"),
-    );
-
-    if (employees.length <= 0) {
-      return alert(t("youMustAddLeastOneEmployee"));
-    } else if (isDateDuplicate.length >= 1) {
-      return alert(
-        t("alreadyHaveData"),
-      );
-    }
-
-    let newChartData = employees.reduce((acc, item) => {
-      acc[`${item.name}`] = Number(item.status.done);
-      return acc;
-    }, {});
-
-    newChartData = { ...newChartData, date: date.toLocaleDateString("en-UK") };
-
-    let newChartDataToDo = employees.reduce((acc, item) => {
-      acc[`${item.name}`] = Number(item.status.todo);
-      return acc;
-    }, {});
-    newChartDataToDo = {
-      ...newChartDataToDo,
-      date: date.toLocaleDateString("en-UK"),
-    };
-
-    setChartData((prevState) => [...prevState, newChartData]);
-    setChartDataTodo((prevState) => [...prevState, newChartDataToDo]);
-  };
+  // const sortByDate = (state, setState) => {
+  //   const sortedState = [...state].sort((a, b) => {
+  //     const dateA = new Date(a.date.split("/").reverse().join("-"));
+  //     const dateB = new Date(b.date.split("/").reverse().join("-"));
+  //     return dateA - dateB;
+  //   });
+  //   setState(sortedState);
+  // };
 
   const clearCharts = () => {
-    setChartData([]);
-    setChartDataTodo([]);
+    resetChartData();
+    resetTodosChartData();
   };
 
-  const deleteEmployee = (id) => {
+  const deleteEmployeeHandler = (id) => {
     if (employees.length <= 1) {
-      let confirmResult = confirm(
-        t("lastEmployeeConfirm"),
-      );
+      let confirmResult = confirm(t("lastEmployeeConfirm"));
       if (!confirmResult) {
         return;
       } else {
         clearCharts();
-        setEmployees((prevState) =>
-          prevState.filter((employee) => employee.id !== id),
-        );
+        deleteEmployee(id);
         return;
       }
     }
-    confirm(t("areYouSure"))
-      ? setEmployees((prevState) =>
-          prevState.filter((employee) => employee.id !== id),
-        )
-      : "";
-  };
-
-  const editEmployeeStatus = (id, todo, progress, waiting, test, done) => {
-    setEmployees((prevState) => {
-      return prevState.map((employee) => {
-        if (employee.id === id) {
-          return {
-            ...employee,
-            ...{
-              status: {
-                todo: todo,
-                progress: progress,
-                waiting: waiting,
-                test: test,
-                done: done,
-              },
-            },
-          };
-        }
-        return employee;
-      });
-    });
+    confirm(t("areYouSure")) ? deleteEmployee(id) : "";
   };
 
   useEffect(() => {
@@ -240,14 +129,14 @@ export default function Example() {
   }, [employees]);
 
   useEffect(() => {
-    localStorage.setItem("chartData", JSON.stringify(chartdata));
-    sortByDate(chartdata, setChartData);
-  }, [chartdata]);
+    localStorage.setItem("chartDatas", JSON.stringify(chartDatas));
+    // sortByDate(chartDatas, setChartData);
+  }, [chartDatas]);
 
   useEffect(() => {
-    localStorage.setItem("chartDataToDo", JSON.stringify(chartdatatodo));
-    sortByDate(chartdatatodo, setChartDataTodo);
-  }, [chartdatatodo]);
+    localStorage.setItem("chartDataTodos", JSON.stringify(chartDataTodos));
+    // sortByDate(chartDataTodos, chartDataTodos);
+  }, [chartDataTodos]);
 
   return (
     <main className="container mx-auto">
@@ -261,7 +150,7 @@ export default function Example() {
               {t("overviewEmployeesTableDesc")}
             </p>
           </div>
-          <AddWorkerModal setEmployees={setEmployees} employees={employees} />
+          <AddWorkerModal />
         </div>
 
         <Table className="mt-4 max-h-64">
@@ -304,18 +193,14 @@ export default function Example() {
                 <TableCell>{employee.status.test}</TableCell>
                 <TableCell>{employee.status.done}</TableCell>
                 <TableCell className="flex items-center justify-center gap-7">
-                  <Modal
-                    employee={employee}
-                    buttonText={t("updateStats")}
-                    editEmployeeStatus={editEmployeeStatus}
-                  />
+                  <Modal employee={employee} buttonText={t("updateStats")} />
                   <Icon
-                    onClick={() => deleteEmployee(employee.id)}
+                    onClick={() => deleteEmployeeHandler(employee.id)}
                     icon={RiDeleteBin6Line}
                     tooltip={t("delete")}
                     size="sm"
                     color="red"
-                    className="cursor-pointer"
+                    className="cursor-pointer rounded-tremor-small p-2 hover:bg-tremor-background-subtle"
                   />
                 </TableCell>
               </TableRow>
@@ -324,11 +209,7 @@ export default function Example() {
         </Table>
       </Card>
 
-      <DatePickerComp
-        chartDataAdd={chartDataAdd}
-        chartDataDelete={chartDataDelete}
-        chartDataUpdate={chartDataUpdate}
-      />
+      <DatePickerComp />
 
       <div className="flex flex-col gap-4">
         <h1 className="mt-3 text-tremor-metric font-semibold text-tremor-content-strong">
@@ -336,14 +217,13 @@ export default function Example() {
         </h1>
         <LineChart
           className="h-80"
-          data={chartdata}
+          data={chartDatas}
           index="date"
           categories={employees
             .filter((item) => item.name.trim() !== "")
             .map((item) => item.name)}
           colors={mapColors(employees.length)}
           yAxisWidth={60}
-          onValueChange={(v) => console.log(v)}
           customTooltip={customTooltip}
           noDataText={t("noDataText")}
         />
@@ -353,14 +233,13 @@ export default function Example() {
         </h1>
         <LineChart
           className="h-80"
-          data={chartdatatodo}
+          data={chartDataTodos}
           index="date"
           categories={employees
             .filter((item) => item.name.trim() !== "")
             .map((item) => item.name)}
           colors={mapColors(employees.length)}
           yAxisWidth={60}
-          onValueChange={(v) => console.log(v)}
           noDataText={t("noDataText")}
         />
 

@@ -2,15 +2,25 @@ import { RiAddCircleLine, RiAddFill, RiCloseLine } from "@remixicon/react";
 import { Button, Dialog, DialogPanel, TextInput } from "@tremor/react";
 import { t } from "i18next";
 import { useState } from "react";
+import { useEmployeesStore } from "../states/employees";
 
-export default function AddWorkerModal({ setEmployees, employees }) {
+export default function AddWorkerModal() {
+  const employees = useEmployeesStore((state) => state.employees);
+  const addNewEmployee = useEmployeesStore((state) => state.addNewEmployee);
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [role, setRole] = useState("");
 
+  const resetForm = () => {
+    setName("");
+    setSurname("");
+    setRole("");
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
+    
     let duplicateName = employees.filter(
         (employee) => employee.name.trim() === name.trim(),
       ),
@@ -18,37 +28,37 @@ export default function AddWorkerModal({ setEmployees, employees }) {
         (employee) => employee.surname.trim() === surname.trim(),
       );
 
+    //Validations
     if (name.length <= 3) {
-      return alert(t("requiredAndMinCharField", {field: t("name"), min: 3}));
-    } else if (surname.length <= 0){
-      return alert(t("requiredField", {field: t("surname")}));
-    } else if (role.length <= 0){
-      return alert(t("requiredField", {field: t("role")}));
+      return alert(t("requiredAndMinCharField", { field: t("name"), min: 3 }));
+    } else if (surname.length <= 0) {
+      return alert(t("requiredField", { field: t("surname") }));
+    } else if (role.length <= 0) {
+      return alert(t("requiredField", { field: t("role") }));
     } else if (duplicateName.length >= 1 && duplicateSurname.length >= 1) {
       return alert(t("alreadyHaveEmployeeSameName"));
     }
 
-    setEmployees((prevState) => [
-      ...prevState,
-      {
-        id: Date.now(),
-        name,
-        surname,
-        role,
-        status: {
-          todo: 0,
-          progress: 0,
-          waiting: 0,
-          test: 0,
-          done: 0,
-        },
+    // Add new employee
+    addNewEmployee({
+      id: Date.now(),
+      name,
+      surname,
+      role,
+      status: {
+        todo: 0,
+        progress: 0,
+        waiting: 0,
+        test: 0,
+        done: 0,
       },
-    ]);
+    });
 
-    setName("");
-    setSurname("");
-    setRole("");
+    // Reset form and close modal
+    resetForm();
+    setIsOpen(false);
   };
+
   return (
     <>
       <Button
@@ -59,6 +69,7 @@ export default function AddWorkerModal({ setEmployees, employees }) {
       >
         {t("addNewEmployee")}
       </Button>
+
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
