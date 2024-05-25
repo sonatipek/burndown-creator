@@ -1,17 +1,25 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import { RiAddCircleLine, RiAddFill, RiCloseLine } from "@remixicon/react";
 import { Button, Dialog, DialogPanel, TextInput } from "@tremor/react";
-import { t } from "i18next";
-import { useState } from "react";
-import { useEmployeesStore } from "../states/employees";
+
+import { useEmployeesStore } from "../../../states/employees";
 
 export default function AddWorkerModal() {
+  const { t } = useTranslation();
+
+  // States
   const employees = useEmployeesStore((state) => state.employees);
-  const addNewEmployee = useEmployeesStore((state) => state.addNewEmployee);
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [role, setRole] = useState("");
 
+  // Actions
+  const addNewEmployee = useEmployeesStore((state) => state.addNewEmployee);
+
+  // Handlers
   const resetForm = () => {
     setName("");
     setSurname("");
@@ -20,7 +28,7 @@ export default function AddWorkerModal() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    
+
     let duplicateName = employees.filter(
         (employee) => employee.name.trim() === name.trim(),
       ),

@@ -1,6 +1,7 @@
-import { Select, SelectItem } from "@tremor/react"; //navbar como için
-import { useEffect, useState } from "react";
 import i18n from "i18next";
+import { useEffect, useState } from "react";
+
+import { Select, SelectItem } from "@tremor/react";
 import { RiGlobalLine } from "@remixicon/react";
 
 export default function Navbar() {
