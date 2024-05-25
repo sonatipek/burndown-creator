@@ -1,20 +1,26 @@
-import { RiAddCircleLine, RiEdit2Line } from "@remixicon/react";
-import { Button, Dialog, DialogPanel, NumberInput } from "@tremor/react";
 import { t } from "i18next";
 import { useState } from "react";
-import { useEmployeesStore } from "../states/employees";
 
-export function Modal({ employee, buttonText }) {
+import { RiAddCircleLine, RiEdit2Line } from "@remixicon/react";
+import { Button, Dialog, DialogPanel, NumberInput } from "@tremor/react";
+
+import { useEmployeesStore } from "../../../states/employees";
+
+export function UpdateStatsModal({ employee, buttonText }) {
+  // States
   const [isOpen, setIsOpen] = useState(false);
   const [todo, setTodo] = useState(employee.status.todo);
   const [progress, setProgress] = useState(employee.status.progress);
   const [waiting, setWaiting] = useState(employee.status.waiting);
   const [test, setTest] = useState(employee.status.test);
   const [done, setDone] = useState(employee.status.done);
+
+  // Actions
   const editEmployeeStats = useEmployeesStore(
     (state) => state.editEmployeeStats,
   );
 
+  // Handlers
   const formSubmitHandler = () => {
     editEmployeeStats(employee.id, todo, progress, waiting, test, done);
     setIsOpen(false);

@@ -1,26 +1,29 @@
-import React, { useState } from "react";
 import i18n from "i18next";
-import { t } from "i18next";
-import { Button, DatePicker, DatePickerValue } from "@tremor/react";
+import React, { useState } from "react";
 import { tr, enUS } from "date-fns/locale";
-import { useChartDatasStore } from "../states/chartDatas";
-import { useChartDataTodosStore } from "../states/chartDataTodos";
-import { useEmployeesStore } from "../states/employees";
+import { useTranslation } from "react-i18next";
 
-export default function DatePickerComp() {
+import { Button, DatePicker, DatePickerValue } from "@tremor/react";
+
+import { useEmployeesStore } from "../../states/employees";
+import { useChartDatasStore } from "../../states/chartDatas";
+import { useChartDataTodosStore } from "../../states/chartDataTodos";
+
+export default function TableDataActions() {
+  const { t } = useTranslation();
+
+  // States
   const [date, setDate] = useState<DatePickerValue>(new Date());
   const employees = useEmployeesStore((state) => state.employees);
-
-  // ChartData State
   const chartDatas = useChartDatasStore((state) => state.chartDatas);
+
+  // Actions
   const chartDataAdd = useChartDatasStore((state) => state.chartDataAdd);
   const chartDataUpdate = useChartDatasStore((state) => state.chartDataUpdate);
   const chartDataDelete = useChartDatasStore((state) => state.chartDataDelete);
   const sortChartDataByDate = useChartDatasStore(
     (state) => state.sortChartDataByDate,
   );
-
-  // ChartData Todos State
   const chartTodosDataAdd = useChartDataTodosStore(
     (state) => state.chartTodosDataAdd,
   );
@@ -34,6 +37,7 @@ export default function DatePickerComp() {
     (state) => state.sortTodosChartDataByDate,
   );
 
+  // Handlers
   const updateChartData = (date) => {
     if (
       chartDatas.filter(
@@ -54,6 +58,7 @@ export default function DatePickerComp() {
     chartDataUpdate(date, newChartData);
     chartTodosDataUpdate(date, newChartDataToDo);
   };
+
   const deleteChartData = (date) => {
     if (
       chartDatas.filter(
