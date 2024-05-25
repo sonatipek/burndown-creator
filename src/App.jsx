@@ -10,7 +10,6 @@ import {
 } from "@tremor/react";
 import { useTranslation } from "react-i18next";
 
-import { useEffect } from "react";
 import { Modal } from "./components/Modal";
 import DatePickerComp from "./components/DatePicker";
 import AddWorkerModal from "./components/AddWorkerModal";
@@ -91,19 +90,11 @@ export default function Example() {
     (state) => state.resetTodosChartData,
   );
   const resetChartData = useChartDatasStore((state) => state.resetChartData);
-  
+
   const chartDatas = useChartDatasStore((state) => state.chartDatas);
-  const chartDataTodos = useChartDataTodosStore((state) => state.chartDataTodos);
-
-
-  // const sortByDate = (state, setState) => {
-  //   const sortedState = [...state].sort((a, b) => {
-  //     const dateA = new Date(a.date.split("/").reverse().join("-"));
-  //     const dateB = new Date(b.date.split("/").reverse().join("-"));
-  //     return dateA - dateB;
-  //   });
-  //   setState(sortedState);
-  // };
+  const chartDataTodos = useChartDataTodosStore(
+    (state) => state.chartDataTodos,
+  );
 
   const clearCharts = () => {
     resetChartData();
@@ -123,20 +114,6 @@ export default function Example() {
     }
     confirm(t("areYouSure")) ? deleteEmployee(id) : "";
   };
-
-  useEffect(() => {
-    localStorage.setItem("employees", JSON.stringify(employees));
-  }, [employees]);
-
-  useEffect(() => {
-    localStorage.setItem("chartDatas", JSON.stringify(chartDatas));
-    // sortByDate(chartDatas, setChartData);
-  }, [chartDatas]);
-
-  useEffect(() => {
-    localStorage.setItem("chartDataTodos", JSON.stringify(chartDataTodos));
-    // sortByDate(chartDataTodos, chartDataTodos);
-  }, [chartDataTodos]);
 
   return (
     <main className="container mx-auto">

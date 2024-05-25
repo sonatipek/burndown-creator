@@ -16,12 +16,23 @@ export default function DatePickerComp() {
   const chartDataAdd = useChartDatasStore((state) => state.chartDataAdd);
   const chartDataUpdate = useChartDatasStore((state) => state.chartDataUpdate);
   const chartDataDelete = useChartDatasStore((state) => state.chartDataDelete);
+  const sortChartDataByDate = useChartDatasStore(
+    (state) => state.sortChartDataByDate,
+  );
 
   // ChartData Todos State
-  const chartTodosDataAdd = useChartDataTodosStore((state) => state.chartTodosDataAdd);
-  const chartTodosDataUpdate = useChartDataTodosStore((state) => state.chartTodosDataUpdate);
-  const chartTodosDataDelete = useChartDataTodosStore((state) => state.chartTodosDataDelete);
-  
+  const chartTodosDataAdd = useChartDataTodosStore(
+    (state) => state.chartTodosDataAdd,
+  );
+  const chartTodosDataUpdate = useChartDataTodosStore(
+    (state) => state.chartTodosDataUpdate,
+  );
+  const chartTodosDataDelete = useChartDataTodosStore(
+    (state) => state.chartTodosDataDelete,
+  );
+  const sortTodosChartDataByDate = useChartDataTodosStore(
+    (state) => state.sortTodosChartDataByDate,
+  );
 
   const updateChartData = (date) => {
     if (
@@ -57,7 +68,7 @@ export default function DatePickerComp() {
     }
 
     chartDataDelete(date);
-    chartTodosDataDelete(date)
+    chartTodosDataDelete(date);
   };
 
   const addChartData = (date) => {
@@ -78,6 +89,7 @@ export default function DatePickerComp() {
 
     newChartData = { ...newChartData, date: date.toLocaleDateString("en-UK") };
     chartDataAdd(newChartData);
+    sortChartDataByDate();
 
     let newChartDataToDo = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.todo);
@@ -88,7 +100,8 @@ export default function DatePickerComp() {
       date: date.toLocaleDateString("en-UK"),
     };
 
-    chartTodosDataAdd(newChartDataToDo)
+    chartTodosDataAdd(newChartDataToDo);
+    sortTodosChartDataByDate();
   };
 
   return (
