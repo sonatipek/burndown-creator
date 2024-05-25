@@ -1,5 +1,5 @@
-import { t } from "i18next";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { RiAddCircleLine, RiEdit2Line } from "@remixicon/react";
 import { Button, Dialog, DialogPanel, NumberInput } from "@tremor/react";
@@ -7,6 +7,8 @@ import { Button, Dialog, DialogPanel, NumberInput } from "@tremor/react";
 import { useEmployeesStore } from "../../../states/employees";
 
 export function UpdateStatsModal({ employee, buttonText }) {
+  const { t } = useTranslation();
+
   // States
   const [isOpen, setIsOpen] = useState(false);
   const [todo, setTodo] = useState(employee.status.todo);
