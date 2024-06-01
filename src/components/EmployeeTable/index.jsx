@@ -17,8 +17,10 @@ import { UpdateStatsModal } from "./components/UpdateStatsModal";
 import { useEmployeesStore } from "../../states/employees";
 import { useChartDatasStore } from "../../states/chartDatas";
 import { useChartDataTodosStore } from "../../states/chartDataTodos";
+import useAuth from "../../hooks/useAuth";
 
 export default function EmployeeTable() {
+  const user = useAuth();
   const { t } = useTranslation();
 
   // States
@@ -72,9 +74,6 @@ export default function EmployeeTable() {
               {t("employee")}
             </TableHeaderCell>
             <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              {t("role")}
-            </TableHeaderCell>
-            <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
               {t("toDo")}
             </TableHeaderCell>
             <TableHeaderCell className="text-tremor-content-strong dark:text-dark-tremor-content-strong">
@@ -97,26 +96,36 @@ export default function EmployeeTable() {
         <TableBody>
           {employees.map((employee) => (
             <TableRow key={employee.id}>
-              <TableCell>{employee.name + " " + employee.surname}</TableCell>
-              <TableCell>{employee.role}</TableCell>
+              <TableCell className="flex flex-col">
+                <p className="font-medium text-tremor-content-emphasis">
+                  {employee.name + " " + employee.surname}
+                </p>
+                <span className="text-tremor-label text-tremor-content-subtle">
+                  {employee.role}
+                </span>
+              </TableCell>
               <TableCell>{employee.status.todo}</TableCell>
               <TableCell>{employee.status.progress}</TableCell>
               <TableCell>{employee.status.waiting}</TableCell>
               <TableCell>{employee.status.test}</TableCell>
               <TableCell>{employee.status.done}</TableCell>
               <TableCell className="flex items-center justify-center gap-7">
-                <UpdateStatsModal
-                  employee={employee}
-                  buttonText={t("updateStats")}
-                />
-                <Icon
-                  onClick={() => deleteEmployeeHandler(employee.id)}
-                  icon={RiDeleteBin6Line}
-                  tooltip={t("delete")}
-                  size="sm"
-                  color="red"
-                  className="cursor-pointer rounded-tremor-small p-2 hover:bg-tremor-background-subtle"
-                />
+                {user && (
+                  <>
+                    <UpdateStatsModal
+                      employee={employee}
+                      buttonText={t("updateStats")}
+                    />
+                    <Icon
+                      onClick={() => deleteEmployeeHandler(employee.id)}
+                      icon={RiDeleteBin6Line}
+                      tooltip={t("delete")}
+                      size="sm"
+                      color="red"
+                      className="cursor-pointer rounded-tremor-small p-2 hover:bg-tremor-background-subtle"
+                    />
+                  </>
+                )}
               </TableCell>
             </TableRow>
           ))}

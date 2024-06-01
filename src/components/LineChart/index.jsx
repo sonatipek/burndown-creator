@@ -50,7 +50,7 @@ export default function LineChartComponent({
         {chartTitle}
       </h1>
       <LineChart
-        className="h-80"
+        className="h-80 mt-6"
         data={data}
         index="date"
         categories={employees
