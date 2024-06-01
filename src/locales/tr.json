@@ -36,5 +36,21 @@
   "name": "İsim",
   "surname": "Soyad",
   "areYouSure": "Emin misiniz?",
-  "lastEmployeeConfirm": "Bu son çalışanınız, eğer tüm çalışanlarınızı silerseniz mevcut tüm grafikler de sıfırlanacaktır. Kabul ediyor musunuz ?"
+  "lastEmployeeConfirm": "Bu son çalışanınız, eğer tüm çalışanlarınızı silerseniz mevcut tüm grafikler de sıfırlanacaktır. Kabul ediyor musunuz ?",
+  "backToHomepage": "Ana Sayfaya Dön",
+  "signIntoYourAccount": "Hesabınıza giriş yapın",
+  "email": "E-posta",
+  "password": "Şifre",
+  "forgotPassword": "Şifreni mi unuttun?",
+  "login": "Giriş Yap",
+  "orWith": "veya",
+  "signInWithGoogle": "Google ile giriş yap",
+  "dontHaveAnAccount": "Hesabınız yok mu?",
+  "signUp": "Kaydol",
+  "createNewAccount": "Yeni hesap oluştur",
+  "createAnAccount": "Hesap Oluştur",
+  "createAccountWithGoogle": "Google ile hesap oluştur",
+  "alreadyHaveAnAccount": "Zaten bir hesabınız var mı?",
+  "passwordAgain": "Şifre (Tekrar)",
+  "logout": "Çıkış Yap"
 }

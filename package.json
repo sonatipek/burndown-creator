@@ -13,11 +13,14 @@
     "@headlessui/react": "^2.0.3",
     "@headlessui/tailwindcss": "^0.2.0",
     "@remixicon/react": "^4.2.0",
+    "@supabase/supabase-js": "^2.43.4",
     "@tremor/react": "^3.16.2",
+    "formik": "^2.4.6",
     "i18next": "^23.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.1.1",
+    "react-router-dom": "^6.23.1",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

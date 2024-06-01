@@ -24,7 +24,7 @@ export function UpdateStatsModal({ employee, buttonText }) {
 
   // Handlers
   const formSubmitHandler = () => {
-    editEmployeeStats(employee.id, todo, progress, waiting, test, done);
+    editEmployeeStats(employee.id, Number(todo), Number(progress), Number(waiting), Number(test), Number(done));
     setIsOpen(false);
   };
   

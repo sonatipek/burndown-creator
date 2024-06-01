@@ -5,8 +5,10 @@ import { RiAddCircleLine, RiAddFill, RiCloseLine } from "@remixicon/react";
 import { Button, Dialog, DialogPanel, TextInput } from "@tremor/react";
 
 import { useEmployeesStore } from "../../../states/employees";
+import useAuth from "../../../hooks/useAuth";
 
 export default function AddWorkerModal() {
+  const user = useAuth();
   const { t } = useTranslation();
 
   // States
@@ -28,6 +30,9 @@ export default function AddWorkerModal() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (!user) {
+      return alert("Çalışan eklemek için üye olmalısınız!")
+    }
 
     let duplicateName = employees.filter(
         (employee) => employee.name.trim() === name.trim(),

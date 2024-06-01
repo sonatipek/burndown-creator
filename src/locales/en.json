@@ -36,5 +36,21 @@
   "name": "Name",
   "surname": "Surname",
   "areYouSure": "Are  you sure?",
-  "lastEmployeeConfirm": "This is your last employee, if you delete all your employees all existing charts will be reset. Do you accept?"
+  "lastEmployeeConfirm": "This is your last employee, if you delete all your employees all existing charts will be reset. Do you accept?",
+  "backToHomepage": "Back to Homepage",
+  "signIntoYourAccount": "Sign into your account",
+  "email": "Email",
+  "password": "Password",
+  "forgotPassword": "Forgot your password?",
+  "login": "Login",
+  "orWith": "or with",
+  "signInWithGoogle": "Sign in with Google",
+  "dontHaveAnAccount": "Don't have an account?",
+  "signUp": "Sign up",
+  "createNewAccount": "Create new account",
+  "createAnAccount": "Create an Account",
+  "createAccountWithGoogle": "Create account with Google",
+  "alreadyHaveAnAccount": "Already have an account?",
+  "passwordAgain": "Password (Again)",
+  "logout": "Logout"
 }
