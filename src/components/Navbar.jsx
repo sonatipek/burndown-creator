@@ -17,7 +17,7 @@ export default function Navbar() {
   );
 
   const logout = async () => {
-    if (confirm(t("areYouSure"))) {
+    if (confirm(t("warningsAndErrors.areYouSure"))) {
       try {
         const { error } = await supabase.auth.signOut();
 
@@ -47,13 +47,13 @@ export default function Navbar() {
 
         <ul className="flex gap-3 font-medium text-tremor-brand">
           <NavLink className="nav-link" to="/">
-            Genel Görünüm
+            {t("navbar.overview")}
           </NavLink>
           <NavLink className="nav-link" to="/employees">
-            Çalışanlar
+            {t("navbar.employees")}
           </NavLink>
           <NavLink className="nav-link" to="/employee-stats">
-            Çalışan İstatistikleri
+            {t("navbar.employeeStats")}
           </NavLink>
         </ul>
 
@@ -84,10 +84,10 @@ export default function Navbar() {
             {!user && (
               <>
                 <Link to="/login">
-                  <Button variant="secondary">Giriş Yap</Button>
+                  <Button variant="secondary">{t("login")}</Button>
                 </Link>
                 <Link to="/signup">
-                  <Button>Kaydol</Button>
+                  <Button>{t("signUp")}</Button>
                 </Link>
               </>
             )}

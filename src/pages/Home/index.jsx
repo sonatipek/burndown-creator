@@ -19,10 +19,10 @@ export default function Home() {
 
       <div className="flex flex-col gap-4">
         <LineChartComponent
-          chartTitle={t("employeeBasedRemainingWork")}
+          chartTitle={t("chartTitles.employeeBasedRemainingWork")}
           data={chartDataTodos}
           isCustomTooltip
-          customTooltipText="Todo"
+          customTooltipText={t("toDo")}
         />
       </div>
     </main>

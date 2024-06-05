@@ -59,7 +59,7 @@ export default function Login() {
 
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h3 className="text-center text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              {t("signIntoYourAccount")}
+              {t("loginPage.signIntoYourAccount")}
             </h3>
             <form
               onSubmit={(e) => submitHandler(e)}
@@ -103,7 +103,7 @@ export default function Login() {
                   to="/forgot-password"
                   className="text-tremor-label text-tremor-brand-subtle underline underline-offset-2 hover:text-tremor-brand"
                 >
-                  {t("forgotPassword")}
+                  {t("loginPage.forgotPassword")}
                 </Link>
               </div>
               <button
@@ -120,11 +120,11 @@ export default function Login() {
             >
               <GoogleIcon className="h-5 w-5" aria-hidden={true} />
               <span className="text-tremor-default font-medium">
-              {t("signInWithGoogle")}
+              {t("loginPage.signInWithGoogle")}
               </span>
             </a>
             <p className="mt-5 text-tremor-content-subtle">
-              {t("dontHaveAnAccount")}
+              {t("loginPage.dontHaveAnAccount")}
               <Link className="font-medium text-tremor-brand" to="/signup">
               {" "}{t("signUp")}
               </Link>

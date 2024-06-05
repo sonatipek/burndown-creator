@@ -18,16 +18,16 @@ export default function EmployeeStats() {
       <TableDataActions />
       <div className="flex gap-4">
         <LineChartComponent
-          chartTitle={t("employeeBasedActivities")}
+          chartTitle={t("chartTitles.employeeBasedActivities")}
           data={chartDatas}
           isCustomTooltip
           customTooltipText={t("done")}
         />
         <LineChartComponent
-          chartTitle={t("employeeBasedRemainingWork")}
+          chartTitle={t("chartTitles.employeeBasedRemainingWork")}
           data={chartDataTodos}
           isCustomTooltip
-          customTooltipText="Todo"
+          customTooltipText={t("toDo")}
         />
       </div>
     </div>

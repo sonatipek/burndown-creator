@@ -44,7 +44,7 @@ export default function TableDataActions() {
         (item) => item.date === date.toLocaleDateString("en-UK"),
       ).length <= 0
     ) {
-      return alert(t("noDatEntryToUpdate"));
+      return alert(t("warningsAndErrors.noDatEntryToUpdate"));
     }
     let newChartData = employees.reduce((acc, item) => {
       acc[`${item.name}`] = Number(item.status.done);
@@ -65,10 +65,10 @@ export default function TableDataActions() {
         (item) => item.date === date.toLocaleDateString("en-UK"),
       ).length <= 0
     ) {
-      return alert(t("noDataEntryToDelete"));
+      return alert(t("warningsAndErrors.noDataEntryToDelete"));
     }
 
-    if (!confirm(t("willBeDeletedConfirm"))) {
+    if (!confirm(t("warningsAndErrors.willBeDeletedConfirm"))) {
       return;
     }
 
@@ -82,9 +82,9 @@ export default function TableDataActions() {
     );
 
     if (employees.length <= 0) {
-      return alert(t("youMustAddLeastOneEmployee"));
+      return alert(t("warningsAndErrors.youMustAddLeastOneEmployee"));
     } else if (isDateDuplicate.length >= 1) {
-      return alert(t("alreadyHaveData"));
+      return alert(t("warningsAndErrors.alreadyHaveData"));
     }
 
     let newChartData = employees.reduce((acc, item) => {
@@ -112,10 +112,10 @@ export default function TableDataActions() {
   return (
     <div>
       <h1 className="text-tremor-title font-semibold text-tremor-content-strong">
-        {t("addTableData")}
+        {t("tableDataActions.addTableData")}
       </h1>
       <p className="text-tremor-default text-tremor-content">
-        {t("addTableDataDesc")}
+        {t("tableDataActions.tableDataDesc")}
       </p>
       <DatePicker
         className="mx-auto max-w-sm"
@@ -125,9 +125,9 @@ export default function TableDataActions() {
       />
       <div className="flex items-center justify-between gap-4">
         <div className="space-x-5">
-          <Button onClick={() => addChartData(date)}>{t("addData")}</Button>
+          <Button onClick={() => addChartData(date)}>{t("tableDataActions.addData")}</Button>
           <Button onClick={() => updateChartData(date)} variant="light">
-            {t("updateSelectedDateData")}
+            {t("tableDataActions.updateSelectedDateData")}
           </Button>
         </div>
         <Button
@@ -135,7 +135,7 @@ export default function TableDataActions() {
           color="red"
           variant="secondary"
         >
-          {t("deleteSelectedDateData")}
+          {t("tableDataActions.deleteSelectedDateData")}
         </Button>
       </div>
     </div>
