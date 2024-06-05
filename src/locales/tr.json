@@ -1,6 +1,5 @@
 {
   "employees": "Çalışanlar",
-  "overviewEmployeesTableDesc": "Kuruluşunuzdaki tüm kayıtlı çalışanlara genel bakış.",
   "employee": "Çalışan",
   "role": "Rol",
   "toDo": "Yapılacak",
@@ -10,47 +9,69 @@
   "done": "Bitti",
   "delete": "Sil",
   "update": "Güncelle",
-  "addEmployee": "Çalışan Ekle",
-  "addTableData": "Tablo Verilerini Ekle",
-  "addTableDataDesc": "Tablo verilerini seçili tarihe göre ekleyin. Yaptığınız değişiklikler tüm grafikleri etkileyecektir.",
-  "addData": "Verileri Ekle",
-  "updateSelectedDateData": "Seçili Tarih Verilerini Güncelle",
-  "deleteSelectedDateData": "Seçili Tarih Verilerini Sil",
-  "employeeBasedActivities": "Çalışan Bazında Aktiviteler",
-  "employeeBasedRemainingWork": "Çalışan Bazında Kalan İşler",
-  "remainingWorks": "Toplam Kalan İşler",
   "noDataText": "Veri Yok",
-  "employeeNameAndSurname": "Çalışanın Adı ve Soyadı",
-  "employeeRole": "Çalışanın Rolü",
-  "addTheEmployee": "Çalışanı Ekle",
-  "addNewEmployee": "Yeni Çalışan Ekle",
-  "updateStats": "İstatistikleri Güncelle",
-  "noDatEntryToUpdate": "Seçtiğiniz tarihte güncellenecek bir veri girişi yok.",
-  "noDataEntryToDelete": "Seçtiğiniz tarihte zaten bir veri girişi yok.",
-  "willBeDeletedConfirm": "Seçili tarihteki çalışanlara ait istatistikler silinecektir. Onaylıyor musunuz?",
-  "alreadyHaveData": "Bu tarihe ait bir veri girişi zaten var. Bu tarihe ait verileri silebilirsiniz ve güncelleyebilirsiniz.",
-  "youMustAddLeastOneEmployee": "Seçili tarihe bir veri girişi eklemek için en az bir çalışan eklemelisiniz.",
-  "alreadyHaveEmployeeSameName": "Aynı isimde bir çalışan zaten var. Lütfen kontrol edip tekrar deneyin.",
-  "requiredField": "{{field}} alanı zorunlu bir alandır.",
-  "requiredAndMinCharField": "{{field}} alanı zorunlu bir alandır ve en az {{min}} karakter olmalıdır.",
   "name": "İsim",
   "surname": "Soyad",
-  "areYouSure": "Emin misiniz?",
-  "lastEmployeeConfirm": "Bu son çalışanınız, eğer tüm çalışanlarınızı silerseniz mevcut tüm grafikler de sıfırlanacaktır. Kabul ediyor musunuz ?",
-  "backToHomepage": "Ana Sayfaya Dön",
-  "signIntoYourAccount": "Hesabınıza giriş yapın",
   "email": "E-posta",
   "password": "Şifre",
-  "forgotPassword": "Şifreni mi unuttun?",
+  "passwordAgain": "Şifre (Tekrar)",
+  "signUp": "Kaydol",
   "login": "Giriş Yap",
   "orWith": "veya",
-  "signInWithGoogle": "Google ile giriş yap",
-  "dontHaveAnAccount": "Hesabınız yok mu?",
-  "signUp": "Kaydol",
-  "createNewAccount": "Yeni hesap oluştur",
-  "createAnAccount": "Hesap Oluştur",
-  "createAccountWithGoogle": "Google ile hesap oluştur",
-  "alreadyHaveAnAccount": "Zaten bir hesabınız var mı?",
-  "passwordAgain": "Şifre (Tekrar)",
-  "logout": "Çıkış Yap"
+  "logout": "Çıkış Yap",
+  "backToHomepage": "Ana Sayfaya Dön",
+  "navbar":{
+    "overview": "Genel Görünüm",
+    "employees": "Çalışanlar",
+    "employeeStats": "Çalışan İstatistikleri"
+  },
+  "employeeTable": {
+    "tableDesc": "Kuruluşunuzdaki tüm kayıtlı çalışanlara genel bakış.",
+    "addNewEmployee": "Yeni Çalışan Ekle",
+    "addEmployee": "Çalışan Ekle",
+    "employeeRole": "Çalışanın Rolü",
+    "employeeNameAndSurname": "Çalışanın Adı ve Soyadı"
+  },
+  "chartTitles": {
+    "employeeBasedRemainingWork": "Çalışan Bazında Kalan İşler",
+    "departmentalBreakdown": "Departman Dağılımı",
+    "employeeBasedActivities": "Çalışan Bazında Aktiviteler"
+  },
+  "tableDataActions": {
+    "addTableData": "Tablo Verilerini Ekle",
+    "tableDataDesc": "Tablo verilerini seçili tarihe göre ekleyin. Yaptığınız değişiklikler tüm grafikleri etkileyecektir.",
+    "addData": "Verileri Ekle",
+    "updateSelectedDateData": "Seçili Tarih Verilerini Güncelle",
+    "deleteSelectedDateData": "Seçili Tarih Verilerini Sil"
+  },
+  "loginPage":{
+    "signIntoYourAccount": "Hesabınıza giriş yapın",
+    "forgotPassword": "Şifreni mi unuttun?",
+    "signInWithGoogle": "Google ile giriş yap",
+    "dontHaveAnAccount": "Hesabınız yok mu?"
+  },
+  "signUpPage":{
+    "createNewAccount": "Yeni hesap oluştur",
+    "createAnAccount": "Hesap Oluştur",
+    "createAccountWithGoogle": "Google ile hesap oluştur",
+    "alreadyHaveAnAccount": "Zaten bir hesabınız var mı?"
+  },
+  "forgotPasswordPage": {
+    "pageTitle": "Şifremi Unuttum",
+    "pageDesc": "E-posta adresini girdiğinde şifreni sıfırlaman için sana bir bağlantı göndereceğiz.",
+    "sendLoginPage": "Giriş Bağlantısı Gönder",
+    "createNewAccount": "Yeni Hesap Oluştur"
+  },
+  "warningsAndErrors": {
+    "areYouSure": "Emin misiniz?",
+    "noDatEntryToUpdate": "Seçtiğiniz tarihte güncellenecek bir veri girişi yok.",
+    "noDataEntryToDelete": "Seçtiğiniz tarihte zaten bir veri girişi yok.",
+    "willBeDeletedConfirm": "Seçili tarihteki çalışanlara ait istatistikler silinecektir. Onaylıyor musunuz?",
+    "alreadyHaveData": "Bu tarihe ait bir veri girişi zaten var. Bu tarihe ait verileri silebilirsiniz ve güncelleyebilirsiniz.",
+    "youMustAddLeastOneEmployee": "Seçili tarihe bir veri girişi eklemek için en az bir çalışan eklemelisiniz.",
+    "alreadyHaveEmployeeSameName": "Aynı isimde bir çalışan zaten var. Lütfen kontrol edip tekrar deneyin.",
+    "requiredField": "{{field}} alanı zorunlu bir alandır.",
+    "requiredAndMinCharField": "{{field}} alanı zorunlu bir alandır ve en az {{min}} karakter olmalıdır.",
+    "lastEmployeeConfirm": "Bu son çalışanınız, eğer tüm çalışanlarınızı silerseniz mevcut tüm grafikler de sıfırlanacaktır. Kabul ediyor musunuz ?"
+  }
 }
