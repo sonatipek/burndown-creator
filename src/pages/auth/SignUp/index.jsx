@@ -65,7 +65,7 @@ export default function SignUp() {
           </Link>
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h3 className="text-center text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              {t("createNewAccount")}
+              {t("signUpPage.createNewAccount")}
             </h3>
             <form
               onSubmit={(e) => submitHandler(e)}
@@ -149,7 +149,7 @@ export default function SignUp() {
                 type="submit"
                 className="mt-4 w-full whitespace-nowrap rounded-tremor-default bg-tremor-brand py-2 text-center text-tremor-default font-medium text-tremor-brand-inverted shadow-tremor-input hover:bg-tremor-brand-emphasis dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:bg-dark-tremor-brand-emphasis"
               >
-                {t("createAnAccount")}
+                {t("signUpPage.createAnAccount")}
               </button>
             </form>
             <Divider>{t("orWith")}</Divider>
@@ -159,11 +159,11 @@ export default function SignUp() {
             >
               <GoogleIcon className="h-5 w-5" aria-hidden={true} />
               <span className="text-tremor-default font-medium">
-                {t("createAccountWithGoogle")}
+                {t("signUpPage.createAccountWithGoogle")}
               </span>
             </a>
             <p className="mt-5 text-tremor-content-subtle">
-              {t("alreadyHaveAnAccount")}
+              {t("signUpPage.alreadyHaveAnAccount")}
               <Link className="font-medium text-tremor-brand" to="/login">
               {" "}{t("login")}
               </Link>

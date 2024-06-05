@@ -43,13 +43,13 @@ export default function AddWorkerModal() {
 
     //Validations
     if (name.length <= 3) {
-      return alert(t("requiredAndMinCharField", { field: t("name"), min: 3 }));
+      return alert(t("warningsAndErrors.requiredAndMinCharField", { field: t("name"), min: 3 }));
     } else if (surname.length <= 0) {
-      return alert(t("requiredField", { field: t("surname") }));
+      return alert(t("warningsAndErrors.requiredField", { field: t("surname") }));
     } else if (role.length <= 0) {
-      return alert(t("requiredField", { field: t("role") }));
+      return alert(t("warningsAndErrors.requiredField", { field: t("role") }));
     } else if (duplicateName.length >= 1 && duplicateSurname.length >= 1) {
-      return alert(t("alreadyHaveEmployeeSameName"));
+      return alert(t("warningsAndErrors.alreadyHaveEmployeeSameName"));
     }
 
     // Add new employee
@@ -80,7 +80,7 @@ export default function AddWorkerModal() {
         variant="light"
         onClick={() => setIsOpen(true)}
       >
-        {t("addNewEmployee")}
+        {t("employeeTable.addNewEmployee")}
       </Button>
 
       <Dialog
@@ -102,7 +102,7 @@ export default function AddWorkerModal() {
           </div>
 
           <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            {t("addNewEmployee")}
+            {t("employeeTable.addNewEmployee")}
           </h4>
 
           <form
@@ -111,7 +111,7 @@ export default function AddWorkerModal() {
             className="mt-4 space-y-3 p-1"
           >
             <label className="block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              {t("employeeNameAndSurname")}
+              {t("employeeTable.employeeNameAndSurname")}
             </label>
             <div className="flex gap-4">
               <TextInput
@@ -128,7 +128,7 @@ export default function AddWorkerModal() {
               />
             </div>
             <label className="!mt-4 block text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              {t("employeeRole")}
+              {t("employeeTable.employeeRole")}
             </label>
             <TextInput
               placeholder="Frontend Developer"
@@ -144,7 +144,7 @@ export default function AddWorkerModal() {
               size="xs"
               className="!mt-6 w-full"
             >
-              {t("addEmployee")}
+              {t("employeeTable.addEmployee")}
             </Button>
           </form>
         </DialogPanel>

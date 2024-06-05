@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import EmployeeTable from "../../components/EmployeeTable";
 import { Card, DonutChart, Legend } from "@tremor/react";
 const datahero = [
@@ -12,13 +13,14 @@ const datahero = [
 ];
 
 export default function Employees() {
+  const {t} = useTranslation();
   return (
     <>
       <EmployeeTable />
 
       <Card className="mt-3">
         <h1 className="text-tremor-metric font-semibold text-tremor-content-strong">
-          Departman Dağılımı
+          {t("chartTitles.departmentalBreakdown")}
         </h1>
         <Legend
           categories={["Frontend Developer", "Backend Developer"]}

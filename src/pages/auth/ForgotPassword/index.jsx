@@ -49,11 +49,10 @@ export default function ForgotPassword() {
 
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h3 className="text-center text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-              {t("forgotPassword")}
+              {t("forgotPasswordPage.pageTitle")}
             </h3>
             <p className="text-tremor-content-subtle">
-              E-posta adresini girdiğinde şifreni sıfırlaman için sana bir
-              bağlantı göndereceğiz.
+              {t("forgotPasswordPage.pageDesc")}
             </p>
             <form
               onSubmit={(e) => submitHandler(e)}
@@ -80,7 +79,7 @@ export default function ForgotPassword() {
                 type="submit"
                 className="mt-4 w-full whitespace-nowrap rounded-tremor-default bg-tremor-brand py-2 text-center text-tremor-default font-medium text-tremor-brand-inverted shadow-tremor-input hover:bg-tremor-brand-emphasis dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:bg-dark-tremor-brand-emphasis"
               >
-                Giriş Bağlantısı Gönder
+                {t("forgotPasswordPage.sendLoginPage")}
               </button>
             </form>
             <Divider>{t("orWith")}</Divider>
@@ -89,7 +88,7 @@ export default function ForgotPassword() {
               className="flex w-full items-center justify-center"
             >
               <Button variant="light" className="inline">
-                Yeni Hesap Oluştur
+                {t("forgotPasswordPage.createNewAccount")}
               </Button>
             </Link>
           </div>

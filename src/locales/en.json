@@ -1,6 +1,5 @@
 {
   "employees": "Employees",
-  "overviewEmployeesTableDesc": "Overview of all registered employees in your organization.",
   "employee": "Employee",
   "role": "Role",
   "toDo": "To Do",
@@ -10,47 +9,69 @@
   "done": "Done",
   "delete": "Delete",
   "update": "Update",
-  "addEmployee": "Add Employee",
-  "addTableData": "Add Table Data",
-  "addTableDataDesc": "Insert table data according to the selected date. The changes you make will affect all charts.",
-  "addData": "Add Data",
-  "deleteSelectedDateData": "Delete Selected Date Data",
-  "updateSelectedDateData": "Update Selected Date Data",
-  "employeeBasedActivities": "Employee Based Activities",
-  "employeeBasedRemainingWork": "Remaining Work by Employee",
-  "remainingWorks": "Total Remaining Works",
   "noDataText": "No Data",
-  "employeeNameAndSurname": "Employee's Name and Surname",
-  "employeeRole": "Employee's Role",
-  "addTheEmployee": "Add the Employee",
-  "addNewEmployee": "Add a New Employee",
-  "updateStats": "Update Stats",
-  "noDatEntryToUpdate": "There is no data entry to update on the date you selected.",
-  "noDataEntryToDelete": "There is already no data entry on the date you selected.",
-  "willBeDeletedConfirm": "Statistics for employees on the selected date will be deleted. Do you accept?",
-  "alreadyHaveData": "There is already a data entry for this date. You can delete and update the data for this date.",
-  "youMustAddLeastOneEmployee": "To add a data entry to the selected date, you must add at least one employee.",
-  "alreadyHaveEmployeeSameName": "There is already an employee with the same name. Please check and try again.",
-  "requiredField": "The {{field}} field is a required field.",
-  "requiredAndMinCharField": "The {{field}} field is a required field and must be at least {{min}} characters.",
   "name": "Name",
   "surname": "Surname",
   "areYouSure": "Are  you sure?",
-  "lastEmployeeConfirm": "This is your last employee, if you delete all your employees all existing charts will be reset. Do you accept?",
-  "backToHomepage": "Back to Homepage",
-  "signIntoYourAccount": "Sign into your account",
   "email": "Email",
   "password": "Password",
-  "forgotPassword": "Forgot your password?",
-  "login": "Login",
-  "orWith": "or with",
-  "signInWithGoogle": "Sign in with Google",
-  "dontHaveAnAccount": "Don't have an account?",
-  "signUp": "Sign up",
-  "createNewAccount": "Create new account",
-  "createAnAccount": "Create an Account",
-  "createAccountWithGoogle": "Create account with Google",
-  "alreadyHaveAnAccount": "Already have an account?",
   "passwordAgain": "Password (Again)",
-  "logout": "Logout"
+  "login": "Login",
+  "signUp": "Sign up",
+  "backToHomepage": "Back to Homepage",
+  "orWith": "or with",
+  "logout": "Logout",
+  "navbar":{
+    "overview": "Overview",
+    "employees": "Employees",
+    "employeeStats": "Employee Stats"
+  },
+  "employeeTable": {
+    "tableDesc": "Overview of all registered employees in your organization.",
+    "addNewEmployee": "Add a New Employee",
+    "addEmployee": "Add Employee",
+    "employeeRole": "Employee's Role",
+    "employeeNameAndSurname": "Employee's Name and Surname"
+  },
+  "chartTitles": {
+    "employeeBasedRemainingWork": "Remaining Work by Employee",
+    "departmentalBreakdown": "Departmental Breakdown",
+    "employeeBasedActivities": "Employee Based Activities"
+  },
+  "tableDataActions": {
+    "addTableData": "Add Table Data",
+    "tableDataDesc": "Insert table data according to the selected date. The changes you make will affect all charts.",
+    "addData": "Add Data",
+    "deleteSelectedDateData": "Delete Selected Date Data",
+    "updateSelectedDateData": "Update Selected Date Data"
+  },
+  "loginPage":{
+    "signIntoYourAccount": "Sign into your account",
+    "forgotPassword": "Forgot your password?",
+    "signInWithGoogle": "Sign in with Google",
+    "dontHaveAnAccount": "Don't have an account?"
+  },
+  "signUpPage":{
+    "createNewAccount": "Create new account",
+    "createAnAccount": "Create an Account",
+    "createAccountWithGoogle": "Create account with Google",
+    "alreadyHaveAnAccount": "Already have an account?"
+  },
+  "warningsAndErrors":{
+    "noDatEntryToUpdate": "There is no data entry to update on the date you selected.",
+    "noDataEntryToDelete": "There is already no data entry on the date you selected.",
+    "willBeDeletedConfirm": "Statistics for employees on the selected date will be deleted. Do you accept?",
+    "alreadyHaveData": "There is already a data entry for this date. You can delete and update the data for this date.",
+    "youMustAddLeastOneEmployee": "To add a data entry to the selected date, you must add at least one employee.",
+    "alreadyHaveEmployeeSameName": "There is already an employee with the same name. Please check and try again.",
+    "requiredField": "The {{field}} field is a required field.",
+    "requiredAndMinCharField": "The {{field}} field is a required field and must be at least {{min}} characters.",
+    "lastEmployeeConfirm": "This is your last employee, if you delete all your employees all existing charts will be reset. Do you accept?"
+  },
+  "forgotPasswordPage": {
+    "pageTitle": "Forgot Password",
+    "pageDesc": "Enter your email address and we will send you a link to reset your password.",
+    "sendLoginPage": "Send Login Link",
+    "createNewAccount": "Create New Account"
+  }
 }

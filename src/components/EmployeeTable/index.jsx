@@ -11,7 +11,7 @@ import {
 } from "@tremor/react";
 
 import { RiDeleteBin6Line } from "@remixicon/react";
-import AddWorkerModal from "./components/AddWorkerModal";
+import AddWorkerModal from "./components/AddEmployeeModal";
 import { UpdateStatsModal } from "./components/UpdateStatsModal";
 
 import { useEmployeesStore } from "../../states/employees";
@@ -41,7 +41,7 @@ export default function EmployeeTable() {
 
   const deleteEmployeeHandler = (id) => {
     if (employees.length <= 1) {
-      let confirmResult = confirm(t("lastEmployeeConfirm"));
+      let confirmResult = confirm(t("warningsAndErrors.lastEmployeeConfirm"));
       if (!confirmResult) {
         return;
       } else {
@@ -50,7 +50,7 @@ export default function EmployeeTable() {
         return;
       }
     }
-    confirm(t("areYouSure")) ? deleteEmployee(id) : "";
+    confirm(t("warningsAndErrors.areYouSure")) ? deleteEmployee(id) : "";
   };
 
   return (
@@ -61,7 +61,7 @@ export default function EmployeeTable() {
             {t("employees")}
           </h3>
           <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-            {t("overviewEmployeesTableDesc")}
+            {t("employeeTable.tableDesc")}
           </p>
         </div>
         <AddWorkerModal />
