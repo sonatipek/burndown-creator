@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import supabase from "../api";
 
 export const useEmployeesStore = create(
   persist(
     (set) => ({
-      employees: [],
+      employees: [fetchEmployees()],
       addNewEmployee: (newEmployee) =>
         set((state) => ({
           employees: [...state.employees, newEmployee],
@@ -39,3 +40,15 @@ export const useEmployeesStore = create(
     },
   ),
 );
+
+async function fetchEmployees() {
+  const { data, error } = await supabase
+  .from('employees')
+  .select()
+
+  if (error) {
+    return []
+  }
+  console.log({...data});
+  return {...data};
+}

@@ -6,6 +6,7 @@ import { Button, Dialog, DialogPanel, TextInput } from "@tremor/react";
 
 import { useEmployeesStore } from "../../../states/employees";
 import useAuth from "../../../hooks/useAuth";
+import supabase from "../../../api";
 
 export default function AddWorkerModal() {
   const user = useAuth();
@@ -28,10 +29,10 @@ export default function AddWorkerModal() {
     setRole("");
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (!user) {
-      return alert("Çalışan eklemek için üye olmalısınız!")
+      return alert("Çalışan eklemek için üye olmalısınız!");
     }
 
     let duplicateName = employees.filter(
@@ -43,29 +44,51 @@ export default function AddWorkerModal() {
 
     //Validations
     if (name.length <= 3) {
-      return alert(t("warningsAndErrors.requiredAndMinCharField", { field: t("name"), min: 3 }));
+      return alert(
+        t("warningsAndErrors.requiredAndMinCharField", {
+          field: t("name"),
+          min: 3,
+        }),
+      );
     } else if (surname.length <= 0) {
-      return alert(t("warningsAndErrors.requiredField", { field: t("surname") }));
+      return alert(
+        t("warningsAndErrors.requiredField", { field: t("surname") }),
+      );
     } else if (role.length <= 0) {
       return alert(t("warningsAndErrors.requiredField", { field: t("role") }));
     } else if (duplicateName.length >= 1 && duplicateSurname.length >= 1) {
       return alert(t("warningsAndErrors.alreadyHaveEmployeeSameName"));
     }
 
-    // Add new employee
-    addNewEmployee({
-      id: Date.now(),
-      name,
-      surname,
-      role,
-      status: {
-        todo: 0,
-        progress: 0,
-        waiting: 0,
-        test: 0,
-        done: 0,
-      },
-    });
+    try {
+      const { data, error } = await supabase
+        .from("employees")
+        .insert({ name: name, surname: surname, role: role })
+        .select();
+
+      if (error) {
+        console.log(error);
+        // throw new Error(error);
+      }
+
+      // Add new employee
+      addNewEmployee({
+        id: data[0].employee_id,
+        name: data[0].name,
+        surname: data[0].surname,
+        role: data[0].role,
+        status: {
+          todo: 0,
+          progress: 0,
+          waiting: 0,
+          test: 0,
+          done: 0,
+        },
+      });
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
 
     // Reset form and close modal
     resetForm();
